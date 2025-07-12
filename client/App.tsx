@@ -48,6 +48,8 @@ const App = () => (
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/admin" element={<AdminPanel />} />
               <Route path="/forum" element={<Forum />} />
+              <Route path="/qr-pickup" element={<QRPickup />} />
+              <Route path="/messageboard" element={<Messageboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
