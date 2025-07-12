@@ -22,6 +22,8 @@ import Nurseries from "./pages/Nurseries";
 import Fees from "./pages/Fees";
 import Policies from "./pages/Policies";
 import Login from "./pages/Login";
+import QRPickup from "./pages/QRPickup";
+import Messageboard from "./pages/Messageboard";
 
 const queryClient = new QueryClient();
 
