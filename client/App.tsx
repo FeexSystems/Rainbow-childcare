@@ -54,6 +54,7 @@ const App = () => (
                 <Route path="/forum" element={<Forum />} />
                 <Route path="/qr-pickup" element={<QRPickup />} />
                 <Route path="/messageboard" element={<Messageboard />} />
+                <Route path="/settings" element={<Settings />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
