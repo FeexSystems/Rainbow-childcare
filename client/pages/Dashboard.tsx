@@ -4,6 +4,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  useChildren,
+  useDailyUpdates,
+  useAttendance,
+  useQRPickups,
+  useNotifications,
+  generateQRCode,
+} from "@/hooks/useData";
+import { useToast } from "@/hooks/use-toast";
+import { format, isToday, parseISO } from "date-fns";
 import {
   Calendar,
   Clock,
@@ -20,27 +31,16 @@ import {
   FileText,
 } from "lucide-react";
 
-interface Child {
-  id: string;
-  name: string;
-  age: string;
-  class: string;
-  photo: string;
-}
-
-interface DailyUpdate {
-  id: string;
-  type: "meal" | "activity" | "learning" | "sleep" | "photo";
-  title: string;
-  description: string;
-  time: string;
-  photo?: string;
-  rating?: number;
-}
-
 export default function Dashboard() {
-  const [userRole, setUserRole] = useState<string>("parent");
-  const [selectedChild, setSelectedChild] = useState<string>("child1");
+  const { user, profile } = useAuth();
+  const { children, loading: childrenLoading } = useChildren();
+  const [selectedChild, setSelectedChild] = useState<string>("");
+  const { updates, loading: updatesLoading } = useDailyUpdates(selectedChild);
+  const { attendance, loading: attendanceLoading } =
+    useAttendance(selectedChild);
+  const { pickups, loading: pickupsLoading } = useQRPickups();
+  const { notifications, unreadCount } = useNotifications();
+  const { toast } = useToast();
 
   // Mock data - in real app this would come from your backend
   const children: Child[] = [
