@@ -46,14 +46,29 @@ const StarLogo = () => (
 
 export function Navigation() {
   const location = useLocation();
+  const { user, profile, signOut } = useAuth();
 
-  const navItems = [
+  const publicNavItems = [
     { name: "HOME", path: "/" },
     { name: "ABOUT", path: "/about" },
     { name: "OUR NURSERIES", path: "/nurseries" },
     { name: "CONTACT", path: "/contact" },
     { name: "APPLY FOR A PLACE", path: "/apply" },
   ];
+
+  const authenticatedNavItems = [
+    { name: "HOME", path: "/" },
+    { name: "DASHBOARD", path: "/dashboard" },
+    { name: "FORUM", path: "/forum" },
+    { name: "MESSAGE BOARD", path: "/messageboard" },
+    ...(profile?.role === "admin" ? [{ name: "ADMIN", path: "/admin" }] : []),
+  ];
+
+  const navItems = user ? authenticatedNavItems : publicNavItems;
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <nav className="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
