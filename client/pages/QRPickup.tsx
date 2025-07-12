@@ -1,4 +1,4 @@
-import { QRPickupSystem } from "@/components/QRPickup";
+import QRPickupComponent from "@/components/QRPickup";
 
 export default function QRPickup() {
   return (
@@ -13,7 +13,7 @@ export default function QRPickup() {
           </p>
         </div>
 
-        <QRPickupSystem />
+        <QRPickupComponent />
       </div>
     </div>
   );
