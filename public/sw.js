@@ -87,8 +87,8 @@ self.addEventListener("push", (event) => {
 
     const options = {
       body: data.body || "You have a new update from Hillcrest Rising Stars",
-      icon: "/pwa-192x192.png",
-      badge: "/pwa-192x192.png",
+      icon: "/icon-192x192.png",
+      badge: "/icon-192x192.png",
       tag: data.tag || "notification",
       data: {
         url: data.url || "/",
