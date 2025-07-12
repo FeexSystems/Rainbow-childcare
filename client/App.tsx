@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
 
 // Pages
 import Index from "./pages/Index";
