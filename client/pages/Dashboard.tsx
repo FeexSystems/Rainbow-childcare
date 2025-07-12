@@ -195,7 +195,7 @@ export default function Dashboard() {
             <TabsTrigger value="messages">Messages</TabsTrigger>
           </TabsList>
 
-                    {/* Today's Updates */}
+          {/* Today's Updates */}
           <TabsContent value="today" className="space-y-6">
             {currentChild && (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -205,157 +205,198 @@ export default function Dashboard() {
                     <CardHeader>
                       <CardTitle className="flex items-center space-x-2">
                         <Clock className="w-5 h-5" />
-                        <span>Today's Activities - {currentChild.first_name} {currentChild.last_name}</span>
+                        <span>
+                          Today's Activities - {currentChild.first_name}{" "}
+                          {currentChild.last_name}
+                        </span>
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       {updatesLoading ? (
                         <div className="text-center py-8">
                           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-nursery-purple mx-auto mb-4"></div>
-                          <p className="text-gray-600">Loading today's updates...</p>
+                          <p className="text-gray-600">
+                            Loading today's updates...
+                          </p>
                         </div>
                       ) : updates.length > 0 ? (
                         <div className="space-y-4">
                           {updates
-                            .filter(update => isToday(parseISO(update.date)))
+                            .filter((update) => isToday(parseISO(update.date)))
                             .map((update) => (
-                            <div
-                              key={update.id}
-                              className="p-4 bg-gray-50 rounded-lg space-y-3"
-                            >
-                              <div className="flex justify-between items-start">
-                                <h3 className="font-medium text-gray-900">
-                                  Daily Update for {format(parseISO(update.date), 'MMM d, yyyy')}
-                                </h3>
-                                <span className="text-sm text-gray-500">
-                                  {format(parseISO(update.created_at), 'h:mm a')}
-                                </span>
+                              <div
+                                key={update.id}
+                                className="p-4 bg-gray-50 rounded-lg space-y-3"
+                              >
+                                <div className="flex justify-between items-start">
+                                  <h3 className="font-medium text-gray-900">
+                                    Daily Update for{" "}
+                                    {format(
+                                      parseISO(update.date),
+                                      "MMM d, yyyy",
+                                    )}
+                                  </h3>
+                                  <span className="text-sm text-gray-500">
+                                    {format(
+                                      parseISO(update.created_at),
+                                      "h:mm a",
+                                    )}
+                                  </span>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                  <div className="space-y-2">
+                                    <div className="flex items-center space-x-2">
+                                      {getActivityIcon("meals")}
+                                      <span className="font-medium text-sm">
+                                        Meals
+                                      </span>
+                                    </div>
+                                    <p className="text-gray-700 text-sm">
+                                      {update.meals}
+                                    </p>
+                                  </div>
+
+                                  <div className="space-y-2">
+                                    <div className="flex items-center space-x-2">
+                                      {getActivityIcon("naps")}
+                                      <span className="font-medium text-sm">
+                                        Naps
+                                      </span>
+                                    </div>
+                                    <p className="text-gray-700 text-sm">
+                                      {update.naps}
+                                    </p>
+                                  </div>
+
+                                  <div className="space-y-2">
+                                    <div className="flex items-center space-x-2">
+                                      {getActivityIcon("activities")}
+                                      <span className="font-medium text-sm">
+                                        Activities
+                                      </span>
+                                    </div>
+                                    <p className="text-gray-700 text-sm">
+                                      {update.activities}
+                                    </p>
+                                  </div>
+
+                                  <div className="space-y-2">
+                                    <div className="flex items-center space-x-2">
+                                      <span className="text-lg">😊</span>
+                                      <span className="font-medium text-sm">
+                                        Mood
+                                      </span>
+                                    </div>
+                                    <p className="text-gray-700 text-sm">
+                                      {update.mood}
+                                    </p>
+                                  </div>
+                                </div>
+
+                                {update.notes && (
+                                  <div className="pt-2 border-t border-gray-200">
+                                    <span className="font-medium text-sm text-gray-900">
+                                      Additional Notes:
+                                    </span>
+                                    <p className="text-gray-700 text-sm mt-1">
+                                      {update.notes}
+                                    </p>
+                                  </div>
+                                )}
+
+                                {update.photos && update.photos.length > 0 && (
+                                  <div className="flex space-x-2">
+                                    {update.photos.map((photo, index) => (
+                                      <img
+                                        key={index}
+                                        src={photo}
+                                        alt={`Activity ${index + 1}`}
+                                        className="w-20 h-20 rounded-lg object-cover"
+                                      />
+                                    ))}
+                                  </div>
+                                )}
                               </div>
-
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                  <div className="flex items-center space-x-2">
-                                    {getActivityIcon('meals')}
-                                    <span className="font-medium text-sm">Meals</span>
-                                  </div>
-                                  <p className="text-gray-700 text-sm">{update.meals}</p>
-                                </div>
-
-                                <div className="space-y-2">
-                                  <div className="flex items-center space-x-2">
-                                    {getActivityIcon('naps')}
-                                    <span className="font-medium text-sm">Naps</span>
-                                  </div>
-                                  <p className="text-gray-700 text-sm">{update.naps}</p>
-                                </div>
-
-                                <div className="space-y-2">
-                                  <div className="flex items-center space-x-2">
-                                    {getActivityIcon('activities')}
-                                    <span className="font-medium text-sm">Activities</span>
-                                  </div>
-                                  <p className="text-gray-700 text-sm">{update.activities}</p>
-                                </div>
-
-                                <div className="space-y-2">
-                                  <div className="flex items-center space-x-2">
-                                    <span className="text-lg">😊</span>
-                                    <span className="font-medium text-sm">Mood</span>
-                                  </div>
-                                  <p className="text-gray-700 text-sm">{update.mood}</p>
-                                </div>
-                              </div>
-
-                              {update.notes && (
-                                <div className="pt-2 border-t border-gray-200">
-                                  <span className="font-medium text-sm text-gray-900">Additional Notes:</span>
-                                  <p className="text-gray-700 text-sm mt-1">{update.notes}</p>
-                                </div>
-                              )}
-
-                              {update.photos && update.photos.length > 0 && (
-                                <div className="flex space-x-2">
-                                  {update.photos.map((photo, index) => (
-                                    <img
-                                      key={index}
-                                      src={photo}
-                                      alt={`Activity ${index + 1}`}
-                                      className="w-20 h-20 rounded-lg object-cover"
-                                    />
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          ))}
+                            ))}
                         </div>
                       ) : (
                         <div className="text-center py-8">
                           <Clock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                          <p className="text-gray-600">No updates available for today yet.</p>
-                          <p className="text-sm text-gray-500 mt-2">Check back later for today's activities!</p>
+                          <p className="text-gray-600">
+                            No updates available for today yet.
+                          </p>
+                          <p className="text-sm text-gray-500 mt-2">
+                            Check back later for today's activities!
+                          </p>
                         </div>
                       )}
                     </CardContent>
                   </Card>
                 </div>
 
-              {/* Sidebar */}
-              <div className="space-y-6">
-                {/* Quick Stats */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Today's Overview</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Attendance</span>
-                      <Badge className="bg-green-100 text-green-800">
-                        Present
-                      </Badge>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Mood</span>
-                      <Badge className="bg-yellow-100 text-yellow-800">
-                        Happy 😊
-                      </Badge>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Meals</span>
-                      <span className="text-sm font-medium">2/3 eaten</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600">Rest</span>
-                      <span className="text-sm font-medium">45 minutes</span>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Upcoming Events */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Upcoming Events</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    {upcomingEvents.map((event, index) => (
-                      <div
-                        key={index}
-                        className="border-l-4 border-nursery-purple pl-3"
-                      >
-                        <div className="text-sm font-medium text-gray-900">
-                          {event.title}
-                        </div>
-                        <div className="text-xs text-gray-600">
-                          {event.date}
-                        </div>
-                        <div className="text-xs text-gray-700 mt-1">
-                          {event.description}
-                        </div>
+                {/* Sidebar */}
+                <div className="space-y-6">
+                  {/* Quick Stats */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg">
+                        Today's Overview
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">
+                          Attendance
+                        </span>
+                        <Badge className="bg-green-100 text-green-800">
+                          Present
+                        </Badge>
                       </div>
-                    ))}
-                  </CardContent>
-                </Card>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">Mood</span>
+                        <Badge className="bg-yellow-100 text-yellow-800">
+                          Happy 😊
+                        </Badge>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">Meals</span>
+                        <span className="text-sm font-medium">2/3 eaten</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-600">Rest</span>
+                        <span className="text-sm font-medium">45 minutes</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Upcoming Events */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg">Upcoming Events</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      {upcomingEvents.map((event, index) => (
+                        <div
+                          key={index}
+                          className="border-l-4 border-nursery-purple pl-3"
+                        >
+                          <div className="text-sm font-medium text-gray-900">
+                            {event.title}
+                          </div>
+                          <div className="text-xs text-gray-600">
+                            {event.date}
+                          </div>
+                          <div className="text-xs text-gray-700 mt-1">
+                            {event.description}
+                          </div>
+                        </div>
+                      ))}
+                    </CardContent>
+                  </Card>
+                </div>
               </div>
-            </div>
+            )}
           </TabsContent>
 
           {/* Calendar View */}
