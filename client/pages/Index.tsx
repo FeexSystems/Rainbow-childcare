@@ -132,28 +132,42 @@ export default function Index() {
       title: "Early Literacy",
       description: "Story time, phonics, and pre-reading skills",
       image:
-        "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&h=300&fit=crop&crop=center",
     },
     {
       icon: Palette,
       title: "Creative Arts",
       description: "Painting, crafts, and creative expression",
       image:
-        "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=400&h=300&fit=crop&crop=center",
     },
     {
       icon: Music,
       title: "Music & Movement",
       description: "Songs, dance, and musical exploration",
       image:
-        "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1516627145497-ae4099bc65ce?w=400&h=300&fit=crop&crop=center",
     },
     {
       icon: TreePine,
       title: "Outdoor Adventures",
       description: "Nature exploration and outdoor play",
       image:
-        "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=400&h=300&fit=crop",
+        "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=400&h=300&fit=crop&crop=center",
+    },
+    {
+      icon: Utensils,
+      title: "Healthy Eating",
+      description: "Learning about nutrition and cooking",
+      image:
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&crop=center",
+    },
+    {
+      icon: Users,
+      title: "Social Skills",
+      description: "Building friendships and teamwork",
+      image:
+        "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&h=300&fit=crop&crop=center",
     },
   ];
 
