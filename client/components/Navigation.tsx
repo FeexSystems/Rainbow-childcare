@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import { NotificationSystem } from "./NotificationSystem";
 
 const StarLogo = () => (
   <div className="flex items-center space-x-2">
