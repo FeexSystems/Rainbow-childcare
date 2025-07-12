@@ -345,28 +345,68 @@ export default function Dashboard() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">
-                          Attendance
-                        </span>
-                        <Badge className="bg-green-100 text-green-800">
-                          Present
-                        </Badge>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Mood</span>
-                        <Badge className="bg-yellow-100 text-yellow-800">
-                          Happy 😊
-                        </Badge>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Meals</span>
-                        <span className="text-sm font-medium">2/3 eaten</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600">Rest</span>
-                        <span className="text-sm font-medium">45 minutes</span>
-                      </div>
+                      {attendanceLoading ? (
+                        <div className="text-center py-4">
+                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-nursery-purple mx-auto"></div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-600">
+                              Attendance
+                            </span>
+                            {attendance.some(
+                              (a) =>
+                                isToday(parseISO(a.date)) && a.check_in_time,
+                            ) ? (
+                              <Badge className="bg-green-100 text-green-800">
+                                Present
+                              </Badge>
+                            ) : (
+                              <Badge className="bg-gray-100 text-gray-800">
+                                Not checked in
+                              </Badge>
+                            )}
+                          </div>
+
+                          {updates
+                            .filter((u) => isToday(parseISO(u.date)))
+                            .map((todayUpdate) => (
+                              <div key={todayUpdate.id} className="space-y-2">
+                                <div className="flex justify-between items-center">
+                                  <span className="text-sm text-gray-600">
+                                    Mood
+                                  </span>
+                                  <Badge className="bg-yellow-100 text-yellow-800">
+                                    {todayUpdate.mood}
+                                  </Badge>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                  <span className="text-sm text-gray-600">
+                                    Meals
+                                  </span>
+                                  <span className="text-sm font-medium">
+                                    {todayUpdate.meals}
+                                  </span>
+                                </div>
+                                <div className="flex justify-between items-center">
+                                  <span className="text-sm text-gray-600">
+                                    Naps
+                                  </span>
+                                  <span className="text-sm font-medium">
+                                    {todayUpdate.naps}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+
+                          {!updates.some((u) => isToday(parseISO(u.date))) && (
+                            <p className="text-sm text-gray-500 text-center py-2">
+                              No updates yet today
+                            </p>
+                          )}
+                        </>
+                      )}
                     </CardContent>
                   </Card>
 
