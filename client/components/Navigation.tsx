@@ -102,14 +102,79 @@ export function Navigation() {
 
           {/* Actions */}
           <div className="hidden md:flex items-center space-x-3">
-            <NotificationSystem />
-            <Button
-              asChild
-              variant="outline"
-              className="border-gray-300 text-gray-700 hover:bg-gray-50"
-            >
-              <Link to="/contact">Contact Us</Link>
-            </Button>
+            {user && <NotificationSystem />}
+            {user && profile ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                  >
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage
+                        src={profile.avatar_url || ""}
+                        alt={profile.full_name}
+                      />
+                      <AvatarFallback className="bg-nursery-purple text-white">
+                        {profile.full_name
+                          ?.split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end">
+                  <div className="flex items-center justify-start gap-2 p-2">
+                    <div className="flex flex-col space-y-1 leading-none">
+                      <p className="font-medium">{profile.full_name}</p>
+                      <p className="w-[200px] truncate text-sm text-muted-foreground">
+                        {profile.email}
+                      </p>
+                      <p className="text-xs text-muted-foreground capitalize">
+                        {profile.role.replace("_", " ")}
+                      </p>
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard" className="w-full">
+                      <User className="mr-2 h-4 w-4" />
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  {profile.role === "admin" && (
+                    <DropdownMenuItem asChild>
+                      <Link to="/admin" className="w-full">
+                        <Settings className="mr-2 h-4 w-4" />
+                        Admin Panel
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="border-gray-300 text-gray-700 hover:bg-gray-50"
+                >
+                  <Link to="/login">Sign In</Link>
+                </Button>
+                <Button
+                  asChild
+                  className="bg-nursery-purple hover:bg-nursery-purple/90"
+                >
+                  <Link to="/apply">Apply Now</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
