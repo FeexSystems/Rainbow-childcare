@@ -599,8 +599,8 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Chat Interface */}
-      <ChatInterface />
+      {/* Enhanced Chat Interface */}
+      <EnhancedChatInterface />
     </div>
   );
 }
