@@ -15,6 +15,7 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { useAdminStats } from "@/hooks/useData";
 import { supabase } from "@/lib/supabase";
+import { ReportGenerator } from "@/components/ReportingSystem";
 import { format, subDays, eachDayOfInterval } from "date-fns";
 import {
   Users,
