@@ -67,26 +67,14 @@ export default function Dashboard() {
     }
   };
 
-  const generatePickupQR = () => {
-    // Navigate to the QR pickup page
-    window.location.href = "/qr-pickup";
-  };
-
   const getActivityIcon = (type: string) => {
-    switch (type) {
-      case "meal":
-        return <Apple className="w-5 h-5" />;
-      case "activity":
-        return <Users className="w-5 h-5" />;
-      case "learning":
-        return <BookOpen className="w-5 h-5" />;
-      case "sleep":
-        return <Clock className="w-5 h-5" />;
-      case "photo":
-        return <Camera className="w-5 h-5" />;
-      default:
-        return <Bell className="w-5 h-5" />;
-    }
+    const iconMap: { [key: string]: any } = {
+      meals: <Apple className="w-5 h-5" />,
+      activities: <Users className="w-5 h-5" />,
+      naps: <Clock className="w-5 h-5" />,
+      photos: <Camera className="w-5 h-5" />,
+    };
+    return iconMap[type] || <Bell className="w-5 h-5" />;
   };
 
   const currentChild =
