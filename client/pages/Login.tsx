@@ -265,11 +265,15 @@ export default function Login() {
                 disabled={loading}
               >
                 {loading ? (
-                  "Signing in..."
+                  isSignUp ? (
+                    "Creating Account..."
+                  ) : (
+                    "Signing in..."
+                  )
                 ) : (
                   <>
                     <LogIn className="w-4 h-4 mr-2" />
-                    Sign In
+                    {isSignUp ? "Create Account" : "Sign In"}
                   </>
                 )}
               </Button>
@@ -278,19 +282,35 @@ export default function Login() {
             {/* Additional Options */}
             <div className="mt-6 pt-6 border-t text-center space-y-2">
               <p className="text-sm text-gray-600">
-                Don't have an account?{" "}
-                <a
-                  href="/apply"
+                {isSignUp
+                  ? "Already have an account?"
+                  : "Don't have an account?"}{" "}
+                <button
+                  type="button"
+                  onClick={() => setIsSignUp(!isSignUp)}
                   className="text-nursery-purple hover:underline"
                 >
-                  Apply for admission
-                </a>
+                  {isSignUp ? "Sign in" : "Create account"}
+                </button>
               </p>
-              <p className="text-sm text-gray-600">
-                <a href="#" className="text-nursery-purple hover:underline">
-                  Forgot your password?
-                </a>
-              </p>
+              {!isSignUp && (
+                <>
+                  <p className="text-sm text-gray-600">
+                    New parent?{" "}
+                    <a
+                      href="/apply"
+                      className="text-nursery-purple hover:underline"
+                    >
+                      Apply for admission
+                    </a>
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    <a href="#" className="text-nursery-purple hover:underline">
+                      Forgot your password?
+                    </a>
+                  </p>
+                </>
+              )}
             </div>
           </CardContent>
         </Card>
