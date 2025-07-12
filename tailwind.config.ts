@@ -57,6 +57,15 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        nursery: {
+          purple: "hsl(var(--nursery-purple))",
+          pink: "hsl(var(--nursery-pink))",
+          orange: "hsl(var(--nursery-orange))",
+          yellow: "hsl(var(--nursery-yellow))",
+          teal: "hsl(var(--nursery-teal))",
+          blue: "hsl(var(--nursery-blue))",
+          green: "hsl(var(--nursery-green))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
