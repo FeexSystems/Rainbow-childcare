@@ -179,14 +179,44 @@ export function Navigation() {
 
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="border-gray-300 text-gray-700 hover:bg-gray-50"
-            >
-              <Link to="/contact">Contact Us</Link>
-            </Button>
+            {user && profile ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                  >
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage
+                        src={profile.avatar_url || ""}
+                        alt={profile.full_name}
+                      />
+                      <AvatarFallback className="bg-nursery-purple text-white">
+                        {profile.full_name
+                          ?.split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end">
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="border-gray-300 text-gray-700 hover:bg-gray-50"
+              >
+                <Link to="/login">Sign In</Link>
+              </Button>
+            )}
           </div>
         </div>
 
