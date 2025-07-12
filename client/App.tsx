@@ -31,32 +31,34 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <div className="min-h-screen flex flex-col">
-          <Navigation />
-          <main className="flex-1">
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/nurseries" element={<Nurseries />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/apply" element={<Apply />} />
-              <Route path="/fees" element={<Fees />} />
-              <Route path="/policies" element={<Policies />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/admin" element={<AdminPanel />} />
-              <Route path="/forum" element={<Forum />} />
-              <Route path="/qr-pickup" element={<QRPickup />} />
-              <Route path="/messageboard" element={<Messageboard />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </BrowserRouter>
+      <AuthProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <div className="min-h-screen flex flex-col">
+            <Navigation />
+            <main className="flex-1">
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/nurseries" element={<Nurseries />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/apply" element={<Apply />} />
+                <Route path="/fees" element={<Fees />} />
+                <Route path="/policies" element={<Policies />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/admin" element={<AdminPanel />} />
+                <Route path="/forum" element={<Forum />} />
+                <Route path="/qr-pickup" element={<QRPickup />} />
+                <Route path="/messageboard" element={<Messageboard />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
