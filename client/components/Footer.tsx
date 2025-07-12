@@ -43,10 +43,22 @@ const GoogleIcon = () => (
 
 export function Footer() {
   const partnerLogos = [
-    { name: "Forest School", src: "/api/placeholder/80/40" },
-    { name: "Early Years", src: "/api/placeholder/80/40" },
-    { name: "Childcare Choices", src: "/api/placeholder/80/40" },
-    { name: "NDNA", src: "/api/placeholder/80/40" },
+    {
+      name: "Forest School",
+      src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=80&h=40&fit=crop&crop=center",
+    },
+    {
+      name: "Early Years",
+      src: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=80&h=40&fit=crop&crop=center",
+    },
+    {
+      name: "Childcare Choices",
+      src: "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=80&h=40&fit=crop&crop=center",
+    },
+    {
+      name: "NDNA",
+      src: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=80&h=40&fit=crop&crop=center",
+    },
   ];
 
   return (
