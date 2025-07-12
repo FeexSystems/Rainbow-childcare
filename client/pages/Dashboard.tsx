@@ -195,75 +195,109 @@ export default function Dashboard() {
             <TabsTrigger value="messages">Messages</TabsTrigger>
           </TabsList>
 
-          {/* Today's Updates */}
+                    {/* Today's Updates */}
           <TabsContent value="today" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* Main Updates */}
-              <div className="lg:col-span-2">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <Clock className="w-5 h-5" />
-                      <span>Today's Activities - {currentChild.name}</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {dailyUpdates.map((update) => (
-                        <div
-                          key={update.id}
-                          className="flex space-x-4 p-4 bg-gray-50 rounded-lg"
-                        >
-                          <div className="flex-shrink-0">
-                            <div className="w-10 h-10 bg-nursery-purple/10 rounded-lg flex items-center justify-center text-nursery-purple">
-                              {getActivityIcon(update.type)}
-                            </div>
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start mb-1">
-                              <h3 className="font-medium text-gray-900">
-                                {update.title}
-                              </h3>
-                              <span className="text-sm text-gray-500">
-                                {update.time}
-                              </span>
-                            </div>
-                            <p className="text-gray-700 text-sm mb-2">
-                              {update.description}
-                            </p>
-                            {update.photo && (
-                              <img
-                                src={update.photo}
-                                alt="Activity"
-                                className="w-20 h-20 rounded-lg object-cover"
-                              />
-                            )}
-                            {update.rating && (
-                              <div className="flex items-center mt-2">
-                                <span className="text-sm text-gray-600 mr-2">
-                                  Engagement:
+            {currentChild && (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Main Updates */}
+                <div className="lg:col-span-2">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center space-x-2">
+                        <Clock className="w-5 h-5" />
+                        <span>Today's Activities - {currentChild.first_name} {currentChild.last_name}</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      {updatesLoading ? (
+                        <div className="text-center py-8">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-nursery-purple mx-auto mb-4"></div>
+                          <p className="text-gray-600">Loading today's updates...</p>
+                        </div>
+                      ) : updates.length > 0 ? (
+                        <div className="space-y-4">
+                          {updates
+                            .filter(update => isToday(parseISO(update.date)))
+                            .map((update) => (
+                            <div
+                              key={update.id}
+                              className="p-4 bg-gray-50 rounded-lg space-y-3"
+                            >
+                              <div className="flex justify-between items-start">
+                                <h3 className="font-medium text-gray-900">
+                                  Daily Update for {format(parseISO(update.date), 'MMM d, yyyy')}
+                                </h3>
+                                <span className="text-sm text-gray-500">
+                                  {format(parseISO(update.created_at), 'h:mm a')}
                                 </span>
-                                <div className="flex">
-                                  {[...Array(5)].map((_, i) => (
-                                    <Star
-                                      key={i}
-                                      className={`w-4 h-4 ${
-                                        i < update.rating!
-                                          ? "text-yellow-400 fill-current"
-                                          : "text-gray-300"
-                                      }`}
+                              </div>
+
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="space-y-2">
+                                  <div className="flex items-center space-x-2">
+                                    {getActivityIcon('meals')}
+                                    <span className="font-medium text-sm">Meals</span>
+                                  </div>
+                                  <p className="text-gray-700 text-sm">{update.meals}</p>
+                                </div>
+
+                                <div className="space-y-2">
+                                  <div className="flex items-center space-x-2">
+                                    {getActivityIcon('naps')}
+                                    <span className="font-medium text-sm">Naps</span>
+                                  </div>
+                                  <p className="text-gray-700 text-sm">{update.naps}</p>
+                                </div>
+
+                                <div className="space-y-2">
+                                  <div className="flex items-center space-x-2">
+                                    {getActivityIcon('activities')}
+                                    <span className="font-medium text-sm">Activities</span>
+                                  </div>
+                                  <p className="text-gray-700 text-sm">{update.activities}</p>
+                                </div>
+
+                                <div className="space-y-2">
+                                  <div className="flex items-center space-x-2">
+                                    <span className="text-lg">😊</span>
+                                    <span className="font-medium text-sm">Mood</span>
+                                  </div>
+                                  <p className="text-gray-700 text-sm">{update.mood}</p>
+                                </div>
+                              </div>
+
+                              {update.notes && (
+                                <div className="pt-2 border-t border-gray-200">
+                                  <span className="font-medium text-sm text-gray-900">Additional Notes:</span>
+                                  <p className="text-gray-700 text-sm mt-1">{update.notes}</p>
+                                </div>
+                              )}
+
+                              {update.photos && update.photos.length > 0 && (
+                                <div className="flex space-x-2">
+                                  {update.photos.map((photo, index) => (
+                                    <img
+                                      key={index}
+                                      src={photo}
+                                      alt={`Activity ${index + 1}`}
+                                      className="w-20 h-20 rounded-lg object-cover"
                                     />
                                   ))}
                                 </div>
-                              </div>
-                            )}
-                          </div>
+                              )}
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+                      ) : (
+                        <div className="text-center py-8">
+                          <Clock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                          <p className="text-gray-600">No updates available for today yet.</p>
+                          <p className="text-sm text-gray-500 mt-2">Check back later for today's activities!</p>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </div>
 
               {/* Sidebar */}
               <div className="space-y-6">
