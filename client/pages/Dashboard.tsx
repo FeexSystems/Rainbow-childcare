@@ -129,10 +129,8 @@ export default function Dashboard() {
   }, []);
 
   const generatePickupQR = () => {
-    // In a real app, this would generate a time-bound QR code
-    alert(
-      "QR Code generated! Valid for 1 hour. Show this to staff during pickup.",
-    );
+    // Navigate to the QR pickup page
+    window.location.href = "/qr-pickup";
   };
 
   const getActivityIcon = (type: string) => {
