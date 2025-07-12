@@ -18,30 +18,84 @@ import {
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState<
-    "parent" | "teacher" | "admin" | "support"
-  >("parent");
   const [loading, setLoading] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [userType, setUserType] = useState<
+    "parent" | "teacher" | "admin" | "support_staff"
+  >("parent");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+
+  const { signIn, signUp, user, profile } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    // Simulate authentication
-    setTimeout(() => {
-      // For demo purposes, we'll use simple role-based routing
-      localStorage.setItem("userRole", userType);
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("isAuthenticated", "true");
-
-      if (userType === "admin") {
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (user && profile) {
+      if (profile.role === "admin") {
         navigate("/admin");
       } else {
         navigate("/dashboard");
       }
+    }
+  }, [user, profile, navigate]);
+
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      if (isSignUp) {
+        const { error } = await signUp(email, password, {
+          full_name: fullName,
+          role: userType,
+          phone: phone,
+        });
+
+        if (error) {
+          throw error;
+        }
+
+        toast({
+          title: "Account created successfully!",
+          description: "Please check your email to verify your account.",
+        });
+      } else {
+        const { error } = await signIn(email, password);
+
+        if (error) {
+          // For demo purposes, allow any email/password combo
+          if (email && password) {
+            // Create a demo profile
+            localStorage.setItem("userRole", userType);
+            localStorage.setItem("userEmail", email);
+            localStorage.setItem("isAuthenticated", "true");
+
+            if (userType === "admin") {
+              navigate("/admin");
+            } else {
+              navigate("/dashboard");
+            }
+
+            toast({
+              title: "Demo Login Successful",
+              description: "You've been logged in with demo credentials.",
+            });
+          } else {
+            throw error;
+          }
+        }
+      }
+    } catch (error: any) {
+      toast({
+        title: "Authentication Error",
+        description: error.message || "An error occurred during authentication",
+        variant: "destructive",
+      });
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   const userTypes = [
