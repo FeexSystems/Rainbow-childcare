@@ -450,6 +450,80 @@ export default function AdminPanel() {
             </Card>
           </TabsContent>
 
+          {/* Reports Tab */}
+          <TabsContent value="reports" className="space-y-6">
+            <ReportGenerator />
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Automated Reports</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="bg-gray-50 p-4 rounded-lg text-center">
+                      <h3 className="font-medium text-gray-900 mb-2">
+                        Daily Reports
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-3">
+                        Automatic daily summaries sent to parents
+                      </p>
+                      <Badge className="bg-green-100 text-green-800">
+                        Active
+                      </Badge>
+                    </div>
+                    <div className="bg-gray-50 p-4 rounded-lg text-center">
+                      <h3 className="font-medium text-gray-900 mb-2">
+                        Weekly Summaries
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-3">
+                        Comprehensive weekly progress reports
+                      </p>
+                      <Badge className="bg-green-100 text-green-800">
+                        Active
+                      </Badge>
+                    </div>
+                    <div className="bg-gray-50 p-4 rounded-lg text-center">
+                      <h3 className="font-medium text-gray-900 mb-2">
+                        Monthly Analytics
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-3">
+                        Detailed monthly insights and trends
+                      </p>
+                      <Badge className="bg-green-100 text-green-800">
+                        Active
+                      </Badge>
+                    </div>
+                  </div>
+
+                  <div className="border-t pt-4">
+                    <h3 className="font-medium text-gray-900 mb-2">
+                      Report Schedule
+                    </h3>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>Daily reports sent at:</span>
+                        <span>6:00 PM</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Weekly reports sent on:</span>
+                        <span>Fridays at 4:00 PM</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Monthly reports sent on:</span>
+                        <span>1st of each month</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Button variant="outline" className="w-full">
+                    Configure Report Settings
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           {/* Children Management Tab */}
           <TabsContent value="children" className="space-y-6">
             <Card>
