@@ -142,31 +142,48 @@ export default function Dashboard() {
         {/* Child Selector */}
         {children.length > 1 && (
           <div className="mb-6">
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 overflow-x-auto">
               {children.map((child) => (
                 <button
                   key={child.id}
                   onClick={() => setSelectedChild(child.id)}
-                  className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all ${
+                  className={`flex items-center space-x-3 p-4 rounded-lg border-2 transition-all min-w-max ${
                     selectedChild === child.id
                       ? "border-nursery-purple bg-nursery-purple/10"
                       : "border-gray-200 hover:border-gray-300 bg-white"
                   }`}
                 >
-                  <img
-                    src={child.photo}
-                    alt={child.name}
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
+                  <div className="w-12 h-12 rounded-full bg-nursery-purple/20 flex items-center justify-center">
+                    <span className="text-nursery-purple font-medium">
+                      {child.first_name[0]}
+                      {child.last_name[0]}
+                    </span>
+                  </div>
                   <div className="text-left">
-                    <h3 className="font-medium text-gray-900">{child.name}</h3>
+                    <h3 className="font-medium text-gray-900">
+                      {child.first_name} {child.last_name}
+                    </h3>
                     <p className="text-sm text-gray-600">
-                      {child.age} • {child.class}
+                      {new Date().getFullYear() -
+                        new Date(child.date_of_birth).getFullYear()}{" "}
+                      years old • {child.nursery_location}
                     </p>
                   </div>
                 </button>
               ))}
             </div>
+          </div>
+        )}
+
+        {children.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-600 mb-4">
+              No children found. Please contact the nursery to add your child to
+              the system.
+            </p>
+            <Button asChild>
+              <a href="/contact">Contact Nursery</a>
+            </Button>
           </div>
         )}
 
