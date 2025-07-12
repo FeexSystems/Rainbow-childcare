@@ -43,21 +43,21 @@
       "short_name": "Dashboard",
       "description": "View your child's daily updates",
       "url": "/dashboard",
-      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
     },
     {
       "name": "Forum",
       "short_name": "Forum",
       "description": "Connect with the parent community",
       "url": "/forum",
-      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
     },
     {
       "name": "QR Pickup",
       "short_name": "QR Pickup",
       "description": "Generate pickup QR code",
       "url": "/qr-pickup",
-      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+      "icons": [{ "src": "/icon-192x192.png", "sizes": "192x192" }]
     }
   ]
 }
