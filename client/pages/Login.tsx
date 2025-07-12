@@ -143,10 +143,12 @@ export default function Login() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-center">Login to Your Account</CardTitle>
+            <CardTitle className="text-center">
+              {isSignUp ? "Create Your Account" : "Login to Your Account"}
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleLogin} className="space-y-6">
+            <form onSubmit={handleAuth} className="space-y-6">
               {/* User Type Selection */}
               <div className="space-y-3">
                 <Label>I am a:</Label>
