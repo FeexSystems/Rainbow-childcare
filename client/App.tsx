@@ -27,6 +27,7 @@ import Login from "./pages/Login";
 import QRPickup from "./pages/QRPickup";
 import Messageboard from "./pages/Messageboard";
 import Settings from "./pages/Settings";
+import Features from "./pages/Features";
 
 const queryClient = new QueryClient();
 
