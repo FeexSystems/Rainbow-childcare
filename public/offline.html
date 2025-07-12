@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Offline - Hillcrest Rising Stars</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+      }
+
+      .container {
+        max-width: 500px;
+        padding: 2rem;
+      }
+
+      .star-icon {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 2rem;
+        opacity: 0.9;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+
+      .features {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .features h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .features ul {
+        list-style: none;
+        text-align: left;
+      }
+
+      .features li {
+        margin-bottom: 0.5rem;
+        padding-left: 1.5rem;
+        position: relative;
+      }
+
+      .features li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #fbbf24;
+        font-weight: bold;
+      }
+
+      .retry-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .retry-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .status {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          padding: 1rem;
+        }
+
+        h1 {
+          font-size: 2rem;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <svg
+        class="star-icon"
+        viewBox="0 0 40 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M20 2L25.5 13.5L38 15L29 23.5L31.5 36L20 30L8.5 36L11 23.5L2 15L14.5 13.5L20 2Z"
+          fill="url(#starGradient)"
+          stroke="#FFF"
+          stroke-width="1"
+        />
+        <defs>
+          <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFD700" />
+            <stop offset="25%" stop-color="#FF6B35" />
+            <stop offset="50%" stop-color="#F72C5B" />
+            <stop offset="75%" stop-color="#4E44CE" />
+            <stop offset="100%" stop-color="#2CD5C4" />
+          </linearGradient>
+        </defs>
+      </svg>
+
+      <h1>You're Offline</h1>
+      <p>
+        No internet connection detected. Don't worry, you can still access some
+        features!
+      </p>
+
+      <div class="features">
+        <h2>Available Offline:</h2>
+        <ul>
+          <li>View cached daily updates</li>
+          <li>Browse previously loaded forum posts</li>
+          <li>Access contact information</li>
+          <li>View nursery policies</li>
+        </ul>
+      </div>
+
+      <button class="retry-btn" onclick="checkConnection()">Try Again</button>
+
+      <div class="status" id="status">
+        Check your internet connection and try again
+      </div>
+    </div>
+
+    <script>
+      let retryCount = 0;
+
+      function checkConnection() {
+        const status = document.getElementById("status");
+        retryCount++;
+
+        status.textContent = "Checking connection...";
+
+        fetch("/", { method: "HEAD", cache: "no-cache" })
+          .then(() => {
+            status.textContent = "Connection restored! Redirecting...";
+            setTimeout(() => {
+              window.location.href = "/";
+            }, 1000);
+          })
+          .catch(() => {
+            status.textContent = `Still offline (attempt ${retryCount}). Please check your internet connection.`;
+          });
+      }
+
+      // Check connection status periodically
+      setInterval(() => {
+        if (navigator.onLine) {
+          checkConnection();
+        }
+      }, 5000);
+
+      // Listen for online event
+      window.addEventListener("online", () => {
+        checkConnection();
+      });
+
+      // Show connection status
+      window.addEventListener("offline", () => {
+        document.getElementById("status").textContent =
+          "Connection lost. You're now offline.";
+      });
+    </script>
+  </body>
+</html>
