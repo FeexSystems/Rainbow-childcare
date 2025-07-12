@@ -164,8 +164,8 @@ export const useNotifications = () => {
     if (!isSupported || permission !== "granted") return;
 
     new Notification(title, {
-      icon: "/pwa-192x192.png",
-      badge: "/pwa-192x192.png",
+      icon: "/icon-192x192.png",
+      badge: "/icon-192x192.png",
       ...options,
     });
   };
