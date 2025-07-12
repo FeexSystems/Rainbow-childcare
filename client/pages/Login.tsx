@@ -121,7 +121,7 @@ export default function Login() {
       color: "bg-purple-500",
     },
     {
-      type: "support" as const,
+      type: "support_staff" as const,
       title: "Support Staff",
       description: "Operational support and assistance",
       icon: HeadphonesIcon,
