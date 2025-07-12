@@ -56,6 +56,7 @@ const App = () => (
                 <Route path="/qr-pickup" element={<QRPickup />} />
                 <Route path="/messageboard" element={<Messageboard />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/features" element={<Features />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
