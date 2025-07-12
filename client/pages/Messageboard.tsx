@@ -14,6 +14,17 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useAuth } from "@/contexts/AuthContext";
+import { useAnnouncements, createAnnouncement } from "@/hooks/useData";
+import { useToast } from "@/hooks/use-toast";
+import { format, parseISO } from "date-fns";
+import {
   Bell,
   Calendar,
   AlertTriangle,
@@ -23,299 +34,329 @@ import {
   Plus,
   Pin,
   Heart,
+  Megaphone,
 } from "lucide-react";
 
-interface Announcement {
-  id: string;
-  title: string;
-  content: string;
-  type: "info" | "urgent" | "event" | "celebration";
-  author: string;
-  postedAt: Date;
-  isPinned: boolean;
-  likes: number;
-  comments: number;
-}
+const typeConfig = {
+  urgent: {
+    icon: <AlertTriangle className="w-4 h-4" />,
+    color: "bg-red-100 text-red-800 border-red-200",
+    bgColor: "bg-red-50",
+  },
+  event: {
+    icon: <Calendar className="w-4 h-4" />,
+    color: "bg-blue-100 text-blue-800 border-blue-200",
+    bgColor: "bg-blue-50",
+  },
+  celebration: {
+    icon: <Star className="w-4 h-4" />,
+    color: "bg-yellow-100 text-yellow-800 border-yellow-200",
+    bgColor: "bg-yellow-50",
+  },
+  general: {
+    icon: <Info className="w-4 h-4" />,
+    color: "bg-gray-100 text-gray-800 border-gray-200",
+    bgColor: "bg-gray-50",
+  },
+};
 
 export default function Messageboard() {
-  const [announcements] = useState<Announcement[]>([
-    {
-      id: "1",
-      title: "School Photos - Tomorrow!",
-      content:
-        "Just a friendly reminder that school photos are tomorrow. Please ensure your child is wearing their nursery uniform. Photo sessions will start at 9:30 AM.",
-      type: "event",
-      author: "Sarah Johnson (Manager)",
-      postedAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
-      isPinned: true,
-      likes: 12,
-      comments: 3,
-    },
-    {
-      id: "2",
-      title: "Parking Notice",
-      content:
-        "Please be mindful when parking during pickup and drop-off times. Use designated parking spaces and avoid blocking the main entrance.",
-      type: "info",
-      author: "Mike Wilson (Staff)",
-      postedAt: new Date(Date.now() - 5 * 60 * 60 * 1000),
-      isPinned: false,
-      likes: 8,
-      comments: 1,
-    },
-    {
-      id: "3",
-      title: "Happy Birthday Emma! 🎉",
-      content:
-        "Today we celebrated Emma's 4th birthday with a special party in the Rainbow Room. Thank you to the parents who provided the delicious cake!",
-      type: "celebration",
-      author: "Lisa Thompson (Teacher)",
-      postedAt: new Date(Date.now() - 8 * 60 * 60 * 1000),
-      isPinned: false,
-      likes: 15,
-      comments: 7,
-    },
-    {
-      id: "4",
-      title: "Weather Alert - Early Closure",
-      content:
-        "Due to the severe weather warning, we will be closing early today at 4:00 PM. Please arrange early pickup for your children.",
-      type: "urgent",
-      author: "Admin Team",
-      postedAt: new Date(Date.now() - 12 * 60 * 60 * 1000),
-      isPinned: true,
-      likes: 5,
-      comments: 2,
-    },
-    {
-      id: "5",
-      title: "Parent Coffee Morning - Friday",
-      content:
-        "Join us this Friday at 9:00 AM for our monthly parent coffee morning. It's a great opportunity to meet other parents and chat with our staff about your child's progress.",
-      type: "event",
-      author: "Emma Clarke (Deputy Manager)",
-      postedAt: new Date(Date.now() - 24 * 60 * 60 * 1000),
-      isPinned: false,
-      likes: 9,
-      comments: 4,
-    },
-  ]);
+  const { user, profile } = useAuth();
+  const { announcements, loading, setAnnouncements } = useAnnouncements();
+  const [isCreating, setIsCreating] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [newContent, setNewContent] = useState("");
+  const [newType, setNewType] = useState<string>("general");
+  const [targetAudience, setTargetAudience] = useState("all");
+  const { toast } = useToast();
 
-  const [newAnnouncement, setNewAnnouncement] = useState({
-    title: "",
-    content: "",
-    type: "info" as const,
-  });
+  const canCreateAnnouncements =
+    profile?.role &&
+    ["teacher", "admin", "support_staff"].includes(profile.role);
 
-  const getAnnouncementIcon = (type: string) => {
-    switch (type) {
-      case "urgent":
-        return <AlertTriangle className="w-5 h-5 text-red-500" />;
-      case "event":
-        return <Calendar className="w-5 h-5 text-blue-500" />;
-      case "celebration":
-        return <Star className="w-5 h-5 text-yellow-500" />;
-      default:
-        return <Info className="w-5 h-5 text-gray-500" />;
+  const handleCreateAnnouncement = async () => {
+    if (!newTitle.trim() || !newContent.trim() || !user) {
+      toast({
+        title: "Error",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const newAnnouncement = await createAnnouncement(
+        newTitle,
+        newContent,
+        newType,
+        user.id,
+        targetAudience,
+      );
+
+      setAnnouncements([newAnnouncement, ...announcements]);
+      setIsCreating(false);
+      setNewTitle("");
+      setNewContent("");
+      setNewType("general");
+      setTargetAudience("all");
+
+      toast({
+        title: "Announcement Posted",
+        description: "Your announcement has been shared with the community!",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to create announcement. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
-  const getAnnouncementBadge = (type: string) => {
-    switch (type) {
-      case "urgent":
-        return <Badge className="bg-red-100 text-red-800">Urgent</Badge>;
-      case "event":
-        return <Badge className="bg-blue-100 text-blue-800">Event</Badge>;
-      case "celebration":
-        return (
-          <Badge className="bg-yellow-100 text-yellow-800">Celebration</Badge>
-        );
-      default:
-        return <Badge variant="secondary">Info</Badge>;
-    }
+  const handleLike = async (announcementId: string) => {
+    // TODO: Implement like functionality
+    toast({
+      title: "Feature Coming Soon",
+      description: "Like functionality will be available soon!",
+    });
   };
 
-  const userRole = localStorage.getItem("userRole") || "parent";
-  const canPost = userRole === "admin" || userRole === "teacher";
-
-  const handleSubmitAnnouncement = () => {
-    // In a real app, this would send to your backend
-    console.log("New announcement:", newAnnouncement);
-    setNewAnnouncement({ title: "", content: "", type: "info" });
-    alert("Announcement posted successfully!");
-  };
+  if (!user || !profile) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Please log in to access the message board
+          </h2>
+          <Button asChild>
+            <a href="/login">Go to Login</a>
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen py-16 bg-gray-50">
+    <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            School Messageboard
+            School Message Board
           </h1>
           <p className="text-xl text-gray-600">
-            Stay connected with important announcements and updates
+            Stay updated with the latest news and announcements
           </p>
         </div>
 
-        {/* Header Actions */}
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center space-x-2">
-            <Bell className="w-5 h-5 text-nursery-purple" />
-            <span className="font-medium text-gray-900">
-              {announcements.length} Announcements
-            </span>
-          </div>
-
-          {canPost && (
-            <Dialog>
+        {/* Create Announcement */}
+        {canCreateAnnouncements && (
+          <div className="mb-6">
+            <Dialog open={isCreating} onOpenChange={setIsCreating}>
               <DialogTrigger asChild>
                 <Button className="bg-nursery-purple hover:bg-nursery-purple/90">
                   <Plus className="w-4 h-4 mr-2" />
                   New Announcement
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="max-w-2xl">
                 <DialogHeader>
                   <DialogTitle>Create New Announcement</DialogTitle>
                   <DialogDescription>
-                    Share important information with the nursery community
+                    Share important information with parents and staff
                   </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="type">Type</Label>
+                      <Select value={newType} onValueChange={setNewType}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="general">General Info</SelectItem>
+                          <SelectItem value="urgent">Urgent Notice</SelectItem>
+                          <SelectItem value="event">Event/Activity</SelectItem>
+                          <SelectItem value="celebration">
+                            Celebration
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="audience">Target Audience</Label>
+                      <Select
+                        value={targetAudience}
+                        onValueChange={setTargetAudience}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Users</SelectItem>
+                          <SelectItem value="parents">Parents Only</SelectItem>
+                          <SelectItem value="staff">Staff Only</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="title">Title</Label>
                     <Input
                       id="title"
-                      value={newAnnouncement.title}
-                      onChange={(e) =>
-                        setNewAnnouncement((prev) => ({
-                          ...prev,
-                          title: e.target.value,
-                        }))
-                      }
-                      placeholder="Announcement title"
+                      value={newTitle}
+                      onChange={(e) => setNewTitle(e.target.value)}
+                      placeholder="Announcement title..."
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="type">Type</Label>
-                    <select
-                      id="type"
-                      value={newAnnouncement.type}
-                      onChange={(e) =>
-                        setNewAnnouncement((prev) => ({
-                          ...prev,
-                          type: e.target.value as any,
-                        }))
-                      }
-                      className="w-full p-2 border rounded-md"
-                    >
-                      <option value="info">Information</option>
-                      <option value="event">Event</option>
-                      <option value="urgent">Urgent</option>
-                      <option value="celebration">Celebration</option>
-                    </select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="content">Message</Label>
+                    <Label htmlFor="content">Content</Label>
                     <Textarea
                       id="content"
-                      value={newAnnouncement.content}
-                      onChange={(e) =>
-                        setNewAnnouncement((prev) => ({
-                          ...prev,
-                          content: e.target.value,
-                        }))
-                      }
-                      placeholder="Write your announcement..."
-                      rows={4}
+                      value={newContent}
+                      onChange={(e) => setNewContent(e.target.value)}
+                      placeholder="Share your announcement..."
+                      rows={6}
                     />
                   </div>
-                  <Button
-                    onClick={handleSubmitAnnouncement}
-                    className="w-full"
-                    disabled={
-                      !newAnnouncement.title || !newAnnouncement.content
-                    }
-                  >
-                    Post Announcement
-                  </Button>
+                  <div className="flex justify-end space-x-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsCreating(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button onClick={handleCreateAnnouncement}>
+                      Post Announcement
+                    </Button>
+                  </div>
                 </div>
               </DialogContent>
             </Dialog>
-          )}
-        </div>
-
-        {/* Announcements List */}
-        <div className="space-y-6">
-          {announcements.map((announcement) => (
-            <Card key={announcement.id} className="relative">
-              {announcement.isPinned && (
-                <div className="absolute top-4 right-4">
-                  <Pin className="w-4 h-4 text-nursery-purple" />
-                </div>
-              )}
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start space-x-3">
-                    {getAnnouncementIcon(announcement.type)}
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2 mb-1">
-                        <CardTitle className="text-lg">
-                          {announcement.title}
-                        </CardTitle>
-                        {getAnnouncementBadge(announcement.type)}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        By {announcement.author} •{" "}
-                        {announcement.postedAt.toLocaleString()}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-700 mb-4">{announcement.content}</p>
-
-                {/* Engagement Actions */}
-                <div className="flex items-center space-x-6 pt-4 border-t">
-                  <button className="flex items-center space-x-1 text-gray-600 hover:text-nursery-purple">
-                    <Heart className="w-4 h-4" />
-                    <span className="text-sm">{announcement.likes}</span>
-                  </button>
-                  <button className="flex items-center space-x-1 text-gray-600 hover:text-nursery-purple">
-                    <MessageSquare className="w-4 h-4" />
-                    <span className="text-sm">{announcement.comments}</span>
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Quick Actions for Parents */}
-        {userRole === "parent" && (
-          <Card className="mt-8">
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Button variant="outline" className="justify-start">
-                  <Bell className="w-4 h-4 mr-2" />
-                  Notification Settings
-                </Button>
-                <Button variant="outline" className="justify-start">
-                  <MessageSquare className="w-4 h-4 mr-2" />
-                  Message Teacher
-                </Button>
-                <Button variant="outline" className="justify-start">
-                  <Calendar className="w-4 h-4 mr-2" />
-                  View School Calendar
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          </div>
         )}
+
+        {/* Announcements */}
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-nursery-purple mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading announcements...</p>
+          </div>
+        ) : announcements.length > 0 ? (
+          <div className="space-y-6">
+            {announcements.map((announcement) => {
+              const config =
+                typeConfig[announcement.type as keyof typeof typeConfig];
+              const isRead = announcement.read_by?.includes(user.id) || false;
+
+              return (
+                <Card
+                  key={announcement.id}
+                  className={`transition-all ${
+                    announcement.type === "urgent"
+                      ? "border-red-200 shadow-md"
+                      : "hover:shadow-md"
+                  } ${!isRead ? "border-l-4 border-l-nursery-purple" : ""}`}
+                >
+                  <CardHeader className={config.bgColor}>
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Badge className={`${config.color} border`}>
+                          <span className="mr-1">{config.icon}</span>
+                          {announcement.type}
+                        </Badge>
+                        {!isRead && (
+                          <Badge variant="secondary" className="text-xs">
+                            New
+                          </Badge>
+                        )}
+                      </div>
+                      <span className="text-sm text-gray-500">
+                        {format(
+                          parseISO(announcement.created_at),
+                          "MMM d, h:mm a",
+                        )}
+                      </span>
+                    </div>
+                    <CardTitle className="text-xl font-bold text-gray-900">
+                      {announcement.title}
+                    </CardTitle>
+                    <div className="flex items-center space-x-2 text-sm text-gray-600">
+                      <span>By {announcement.profiles?.full_name}</span>
+                      <Badge variant="outline" className="text-xs">
+                        {announcement.profiles?.role?.replace("_", " ")}
+                      </Badge>
+                      {announcement.target_audience !== "all" && (
+                        <Badge variant="secondary" className="text-xs">
+                          {announcement.target_audience}
+                        </Badge>
+                      )}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-700 whitespace-pre-wrap mb-4">
+                      {announcement.content}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleLike(announcement.id)}
+                          className="text-gray-500 hover:text-red-500"
+                        >
+                          <Heart className="w-4 h-4 mr-1" />
+                          {announcement.likes?.length || 0}
+                        </Button>
+                        <span className="text-sm text-gray-500 flex items-center">
+                          <MessageSquare className="w-4 h-4 mr-1" />
+                          Comments coming soon
+                        </span>
+                      </div>
+                      {announcement.type === "urgent" && (
+                        <Badge className="bg-red-100 text-red-800">
+                          <AlertTriangle className="w-3 h-3 mr-1" />
+                          Action Required
+                        </Badge>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <Megaphone className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              No announcements yet
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Check back later for important updates and news!
+            </p>
+            {canCreateAnnouncements && (
+              <Button onClick={() => setIsCreating(true)}>
+                Create First Announcement
+              </Button>
+            )}
+          </div>
+        )}
+
+        {/* Legend */}
+        <div className="mt-8 p-4 bg-white rounded-lg border">
+          <h3 className="font-medium text-gray-900 mb-3">Announcement Types</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            {Object.entries(typeConfig).map(([type, config]) => (
+              <div key={type} className="flex items-center space-x-2">
+                <Badge className={`${config.color} border`}>
+                  <span className="mr-1">{config.icon}</span>
+                  {type}
+                </Badge>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
