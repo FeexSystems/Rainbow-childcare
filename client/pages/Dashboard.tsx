@@ -77,8 +77,33 @@ export default function Dashboard() {
     return iconMap[type] || <Bell className="w-5 h-5" />;
   };
 
-  const currentChild =
-    children.find((child) => child.id === selectedChild) || children[0];
+  const currentChild = children.find((child) => child.id === selectedChild);
+
+  if (!user || !profile) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Please log in to access your dashboard
+          </h2>
+          <Button asChild>
+            <a href="/login">Go to Login</a>
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (childrenLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-nursery-purple mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
