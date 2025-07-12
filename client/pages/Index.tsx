@@ -400,6 +400,36 @@ export default function Index() {
               </motion.div>
             ))}
           </div>
+
+          {/* Mobile Scrollable Version */}
+          <div className="md:hidden">
+            <div className="flex overflow-x-auto space-x-6 pb-6 scrollbar-hide">
+              {features.map((feature, index) => (
+                <motion.div
+                  key={`mobile-${index}`}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="flex-shrink-0 w-80"
+                >
+                  <InteractiveCard>
+                    <div className="glass-card p-6 h-full">
+                      <div
+                        className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${feature.color} flex items-center justify-center mb-6`}
+                      >
+                        <feature.icon className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-3">
+                        {feature.title}
+                      </h3>
+                      <p className="text-gray-600">{feature.description}</p>
+                    </div>
+                  </InteractiveCard>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
