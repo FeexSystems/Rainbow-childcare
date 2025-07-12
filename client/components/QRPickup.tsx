@@ -32,6 +32,7 @@ import {
   User,
   Calendar,
   RefreshCw,
+  Info,
 } from "lucide-react";
 
 export function QRGenerator() {
