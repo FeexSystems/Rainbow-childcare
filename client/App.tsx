@@ -57,6 +57,7 @@ const App = () => (
               </Routes>
             </main>
             <Footer />
+            <PWAInstallPrompt />
           </div>
         </BrowserRouter>
       </AuthProvider>
