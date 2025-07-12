@@ -98,7 +98,7 @@ self.addEventListener("push", (event) => {
         {
           action: "view",
           title: "View",
-          icon: "/pwa-192x192.png",
+          icon: "/icon-192x192.png",
         },
         {
           action: "close",
