@@ -113,20 +113,24 @@ export default function Dashboard() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             <div>
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-                Parent Dashboard
+                Welcome back, {profile.full_name}!
               </h1>
               <p className="text-gray-600">
-                Welcome back! Here's what's happening with your little ones.
+                Here's what's happening with your{" "}
+                {children.length === 1 ? "little one" : "little ones"}.
               </p>
             </div>
             <div className="mt-4 md:mt-0 flex space-x-3">
-              <Button
-                onClick={generatePickupQR}
-                className="bg-green-600 hover:bg-green-700"
-              >
-                <QrCode className="w-4 h-4 mr-2" />
-                Generate Pickup QR
-              </Button>
+              {selectedChild && (
+                <Button
+                  onClick={handleGenerateQR}
+                  className="bg-green-600 hover:bg-green-700"
+                  disabled={!currentChild}
+                >
+                  <QrCode className="w-4 h-4 mr-2" />
+                  Generate Pickup QR
+                </Button>
+              )}
               <Button variant="outline">
                 <Download className="w-4 h-4 mr-2" />
                 Download Report
