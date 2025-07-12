@@ -42,25 +42,12 @@ export default function Dashboard() {
   const { notifications, unreadCount } = useNotifications();
   const { toast } = useToast();
 
-  // Mock data - in real app this would come from your backend
-  const children: Child[] = [
-    {
-      id: "child1",
-      name: "Emma Johnson",
-      age: "3 years old",
-      class: "Rainbow Room",
-      photo:
-        "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=100&h=100&fit=crop&crop=face",
-    },
-    {
-      id: "child2",
-      name: "Oliver Johnson",
-      age: "4 years old",
-      class: "Sunshine Room",
-      photo:
-        "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=100&h=100&fit=crop&crop=face",
-    },
-  ];
+  // Set first child as selected when children are loaded
+  useEffect(() => {
+    if (children.length > 0 && !selectedChild) {
+      setSelectedChild(children[0].id);
+    }
+  }, [children, selectedChild]);
 
   const dailyUpdates: DailyUpdate[] = [
     {
