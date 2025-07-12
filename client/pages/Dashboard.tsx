@@ -49,71 +49,23 @@ export default function Dashboard() {
     }
   }, [children, selectedChild]);
 
-  const dailyUpdates: DailyUpdate[] = [
-    {
-      id: "1",
-      type: "activity",
-      title: "Morning Circle Time",
-      description:
-        "Emma participated enthusiastically in our morning songs and showed great counting skills during number time.",
-      time: "9:30 AM",
-      rating: 5,
-    },
-    {
-      id: "2",
-      type: "meal",
-      title: "Snack Time",
-      description: "Enjoyed apple slices and crackers. Drank all her water!",
-      time: "10:15 AM",
-      rating: 4,
-    },
-    {
-      id: "3",
-      type: "learning",
-      title: "Art & Craft",
-      description:
-        "Created a beautiful butterfly painting using handprints. Emma showed excellent fine motor skills and creativity.",
-      time: "11:00 AM",
-      photo:
-        "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=300&h=200&fit=crop",
-      rating: 5,
-    },
-    {
-      id: "4",
-      type: "sleep",
-      title: "Rest Time",
-      description:
-        "Had a peaceful 45-minute rest. Woke up refreshed and ready for afternoon activities.",
-      time: "1:00 PM",
-      rating: 4,
-    },
-  ];
+  const handleGenerateQR = async () => {
+    if (!selectedChild || !user) return;
 
-  const upcomingEvents = [
-    {
-      date: "Tomorrow",
-      title: "School Photos",
-      description: "Please dress your child in the nursery uniform",
-      type: "photo",
-    },
-    {
-      date: "Friday",
-      title: "Parent Coffee Morning",
-      description: "Join us for coffee and chat with other parents",
-      type: "social",
-    },
-    {
-      date: "Next Week",
-      title: "Science Week",
-      description: "Exciting experiments and discovery activities",
-      type: "learning",
-    },
-  ];
-
-  useEffect(() => {
-    const role = localStorage.getItem("userRole") || "parent";
-    setUserRole(role);
-  }, []);
+    try {
+      await generateQRCode(selectedChild, user.id);
+      toast({
+        title: "QR Code Generated",
+        description: "Your pickup QR code has been generated successfully.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to generate QR code. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const generatePickupQR = () => {
     // Navigate to the QR pickup page
