@@ -75,8 +75,9 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Contact Button */}
-          <div className="hidden md:block">
+          {/* Actions */}
+          <div className="hidden md:flex items-center space-x-3">
+            <NotificationSystem />
             <Button
               asChild
               variant="outline"
