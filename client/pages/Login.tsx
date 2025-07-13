@@ -272,6 +272,33 @@ export default function Login() {
                   </>
                 )}
               </Button>
+
+              {/* Quick Demo Button */}
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full mt-3"
+                onClick={() => {
+                  setEmail("demo@nursery.com");
+                  setPassword("demo123");
+                  setUserType("parent");
+                  // Auto-submit after setting values
+                  setTimeout(() => {
+                    const demoResult = createDemoUser(
+                      "demo@nursery.com",
+                      "parent",
+                    );
+                    toast({
+                      title: "Demo Mode Activated",
+                      description:
+                        "You're now logged in as a demo parent user.",
+                    });
+                  }, 100);
+                }}
+                disabled={loading}
+              >
+                🚀 Try Demo Now
+              </Button>
             </form>
 
             {/* Additional Options */}
