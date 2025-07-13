@@ -571,8 +571,17 @@ Documents: ${formData.documents.join(", ")}
                   disabled={!formData.agreedToTerms || submitting}
                   className="bg-green-600 hover:bg-green-700 flex items-center space-x-2"
                 >
-                  <FileText className="w-4 h-4" />
-                  <span>Submit Application</span>
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    <>
+                      <FileText className="w-4 h-4" />
+                      <span>Submit Application</span>
+                    </>
+                  )}
                 </Button>
               ) : (
                 <Button
