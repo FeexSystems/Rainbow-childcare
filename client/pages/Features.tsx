@@ -583,13 +583,20 @@ export default function Features() {
                 Join hundreds of families already using our platform for a
                 better nursery experience.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-purple-600 hover:bg-purple-700">
-                  <Sparkles className="w-5 h-5 mr-2" />
+              <div className="flex flex-row gap-2 sm:gap-4 justify-center">
+                <Button
+                  size="sm"
+                  className="bg-purple-600 hover:bg-purple-700 text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 flex-1 sm:flex-none max-w-[130px] sm:max-w-none"
+                >
+                  <Sparkles className="w-3 sm:w-5 h-3 sm:h-5 mr-1 sm:mr-2" />
                   Start Free Trial
                 </Button>
-                <Button size="lg" variant="outline">
-                  <Phone className="w-5 h-5 mr-2" />
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 flex-1 sm:flex-none max-w-[130px] sm:max-w-none"
+                >
+                  <Phone className="w-3 sm:w-5 h-3 sm:h-5 mr-1 sm:mr-2" />
                   Schedule Demo
                 </Button>
               </div>
