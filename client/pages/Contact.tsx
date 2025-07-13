@@ -1,11 +1,141 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { MapPin, Phone, Mail, Clock, Loader2, CheckCircle } from "lucide-react";
+import { submitContactForm } from "@/lib/supabase";
+import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+    is_urgent: false,
+    preferred_contact_method: "email",
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.subject ||
+      !formData.message
+    ) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSubmitting(true);
+
+    try {
+      const { error } = await submitContactForm(formData);
+
+      if (error) {
+        toast({
+          title: "Submission Failed",
+          description:
+            error.message || "Failed to send message. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setSubmitted(true);
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for contacting us. We'll get back to you soon.",
+      });
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      toast({
+        title: "Submission Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const updateField = (field: string, value: any) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-cyan-50 flex items-center justify-center px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="glass-card max-w-2xl w-full text-center"
+        >
+          <div className="p-12">
+            <CheckCircle className="w-20 h-20 mx-auto mb-6 text-green-500" />
+            <h1 className="text-4xl font-bold text-gray-800 mb-4">
+              Message Sent!
+            </h1>
+            <p className="text-xl text-gray-600 mb-8">
+              Thank you for contacting us. We've received your message and will
+              get back to you
+              {formData.is_urgent
+                ? " within 24 hours"
+                : " within 2-3 business days"}
+              .
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                onClick={() => (window.location.href = "/")}
+                className="bg-gradient-to-r from-nursery-purple to-nursery-pink"
+              >
+                Back to Home
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setSubmitted(false);
+                  setFormData({
+                    name: "",
+                    email: "",
+                    phone: "",
+                    subject: "",
+                    message: "",
+                    is_urgent: false,
+                    preferred_contact_method: "email",
+                  });
+                }}
+              >
+                Send Another Message
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
