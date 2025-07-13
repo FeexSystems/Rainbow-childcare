@@ -1,6 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
-import { supabase, Profile } from "../lib/supabase";
+import {
+  supabase,
+  Profile,
+  resendConfirmation,
+  resetPassword,
+  updatePassword,
+} from "../lib/supabase";
 
 interface AuthContextType {
   user: User | null;
@@ -10,6 +16,10 @@ interface AuthContextType {
   signUp: (email: string, password: string, metadata: any) => Promise<any>;
   signOut: () => Promise<void>;
   updateProfile: (updates: Partial<Profile>) => Promise<void>;
+  resendConfirmation: (email: string) => Promise<any>;
+  resetPassword: (email: string) => Promise<any>;
+  updatePassword: (password: string) => Promise<any>;
+  isEmailConfirmed: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,6 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
 
   useEffect(() => {
     // Get initial session
@@ -44,6 +55,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
       setUser(session?.user ?? null);
+      setIsEmailConfirmed(session?.user?.email_confirmed_at ? true : false);
+
       if (session?.user) {
         await fetchProfile(session.user.id);
       } else {
@@ -85,30 +98,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const signUp = async (email: string, password: string, metadata: any) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: metadata,
-      },
-    });
-
-    // Create profile after successful signup
-    if (data.user && !error) {
-      const { error: profileError } = await supabase.from("profiles").insert({
-        id: data.user.id,
-        email: email,
-        full_name: metadata.full_name,
-        role: metadata.role || "parent",
-        phone: metadata.phone,
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: metadata,
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
       });
 
-      if (profileError) {
-        console.error("Error creating profile:", profileError);
-      }
-    }
+      // Profile will be created automatically by the database trigger
+      // No need to create it manually here
 
-    return { data, error };
+      return { data, error };
+    } catch (error) {
+      console.error("SignUp error:", error);
+      return { data: null, error };
+    }
   };
 
   const signOut = async () => {
@@ -136,6 +143,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     await fetchProfile(user.id);
   };
 
+  const handleResendConfirmation = async (email: string) => {
+    return await resendConfirmation(email);
+  };
+
+  const handleResetPassword = async (email: string) => {
+    return await resetPassword(email);
+  };
+
+  const handleUpdatePassword = async (password: string) => {
+    return await updatePassword(password);
+  };
+
   const value = {
     user,
     profile,
@@ -144,6 +163,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     signUp,
     signOut,
     updateProfile,
+    resendConfirmation: handleResendConfirmation,
+    resetPassword: handleResetPassword,
+    updatePassword: handleUpdatePassword,
+    isEmailConfirmed,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
