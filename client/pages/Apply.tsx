@@ -209,6 +209,57 @@ Documents: ${formData.documents.join(", ")}
     { title: "Documents & Confirmation", completed: currentStep > 4 },
   ];
 
+  if (submitted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-cyan-50 flex items-center justify-center px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="glass-card max-w-2xl w-full text-center"
+        >
+          <div className="p-12">
+            <CheckCircle className="w-20 h-20 mx-auto mb-6 text-green-500" />
+            <h1 className="text-4xl font-bold text-gray-800 mb-4">
+              Application Submitted!
+            </h1>
+            <p className="text-xl text-gray-600 mb-8">
+              Thank you for applying to our nursery. We've received your
+              application and will review it shortly.
+            </p>
+            <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
+              <h3 className="font-semibold text-green-800 mb-2">
+                What happens next?
+              </h3>
+              <ul className="text-green-700 space-y-1 text-left">
+                <li>
+                  • We'll review your application within 2-3 business days
+                </li>
+                <li>• You'll receive an email confirmation shortly</li>
+                <li>• If successful, we'll invite you for a visit</li>
+                <li>• We'll discuss available spaces and start dates</li>
+              </ul>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                onClick={() => (window.location.href = "/")}
+                className="bg-gradient-to-r from-nursery-purple to-nursery-pink"
+              >
+                Back to Home
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => (window.location.href = "/contact")}
+              >
+                Contact Us
+              </Button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen py-16 bg-gray-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
