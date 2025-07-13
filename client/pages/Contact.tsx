@@ -241,18 +241,27 @@ export default function Contact() {
                 <CardTitle>Send us a Message</CardTitle>
               </CardHeader>
               <CardContent>
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Your full name" />
+                    <Label htmlFor="name">Name *</Label>
+                    <Input
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) => updateField("name", e.target.value)}
+                      placeholder="Your full name"
+                      required
+                    />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">Email *</Label>
                     <Input
                       id="email"
                       type="email"
+                      value={formData.email}
+                      onChange={(e) => updateField("email", e.target.value)}
                       placeholder="your.email@example.com"
+                      required
                     />
                   </div>
 
@@ -261,38 +270,98 @@ export default function Contact() {
                     <Input
                       id="phone"
                       type="tel"
+                      value={formData.phone}
+                      onChange={(e) => updateField("phone", e.target.value)}
                       placeholder="Your phone number"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="nursery">Which Nursery?</Label>
-                    <select
-                      id="nursery"
-                      className="w-full p-2 border rounded-md"
+                    <Label htmlFor="subject">Subject *</Label>
+                    <Select
+                      value={formData.subject}
+                      onValueChange={(value) => updateField("subject", value)}
                     >
-                      <option value="">Select a nursery</option>
-                      <option value="hillcrest">Hillcrest Rising Stars</option>
-                      <option value="rainbow">
-                        Rainbow Stars Day Nursery Croydon
-                      </option>
-                    </select>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select inquiry type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="admissions">
+                          Admissions Inquiry
+                        </SelectItem>
+                        <SelectItem value="visit">Schedule a Visit</SelectItem>
+                        <SelectItem value="fees">Fees & Funding</SelectItem>
+                        <SelectItem value="policies">
+                          Policies & Procedures
+                        </SelectItem>
+                        <SelectItem value="general">
+                          General Question
+                        </SelectItem>
+                        <SelectItem value="complaint">Complaint</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
+                    <Label htmlFor="preferred_contact">
+                      Preferred Contact Method
+                    </Label>
+                    <Select
+                      value={formData.preferred_contact_method}
+                      onValueChange={(value) =>
+                        updateField("preferred_contact_method", value)
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="email">Email</SelectItem>
+                        <SelectItem value="phone">Phone</SelectItem>
+                        <SelectItem value="either">Either</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="message">Message *</Label>
                     <Textarea
                       id="message"
+                      value={formData.message}
+                      onChange={(e) => updateField("message", e.target.value)}
                       placeholder="Tell us about your inquiry..."
                       rows={5}
+                      required
                     />
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="urgent"
+                      checked={formData.is_urgent}
+                      onCheckedChange={(checked) =>
+                        updateField("is_urgent", checked)
+                      }
+                    />
+                    <Label htmlFor="urgent" className="text-sm">
+                      This is urgent (we'll respond within 24 hours)
+                    </Label>
                   </div>
 
                   <Button
                     type="submit"
+                    disabled={submitting}
                     className="w-full bg-nursery-purple hover:bg-nursery-purple/90"
                   >
-                    Send Message
+                    {submitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      "Send Message"
+                    )}
                   </Button>
                 </form>
               </CardContent>
