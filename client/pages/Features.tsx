@@ -304,7 +304,7 @@ export default function Features() {
               <Button
                 size="lg"
                 variant="outline"
-                className="glass-button text-white border-white/30"
+                className="glass-button text-gray-800 bg-white/20 border-white/50 hover:bg-white/30 hover:text-gray-900"
               >
                 <Download className="w-5 h-5 mr-2" />
                 Feature Guide
