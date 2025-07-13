@@ -271,18 +271,18 @@ export default function HillCrestNursery() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-row gap-2 sm:gap-4 justify-center items-center">
               <Button
-                size="lg"
-                className="bg-gradient-to-r from-nursery-purple to-nursery-pink hover:scale-105 transform transition-all duration-300"
+                size="sm"
+                className="bg-gradient-to-r from-nursery-purple to-nursery-pink hover:scale-105 transform transition-all duration-300 text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 flex-1 sm:flex-none max-w-[140px] sm:max-w-none"
                 asChild
               >
                 <a href="/apply">Apply for a Place</a>
               </Button>
               <Button
                 variant="outline"
-                size="lg"
-                className="border-nursery-purple text-nursery-purple hover:bg-nursery-purple hover:text-white transition-all duration-300"
+                size="sm"
+                className="border-nursery-purple text-nursery-purple hover:bg-nursery-purple hover:text-white transition-all duration-300 text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 flex-1 sm:flex-none max-w-[130px] sm:max-w-none"
                 asChild
               >
                 <a href="/contact">Schedule a Visit</a>
