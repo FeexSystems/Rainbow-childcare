@@ -99,6 +99,102 @@ export function Footer() {
 
   return (
     <footer className="bg-white">
+      {/* Partner Organizations */}
+      <div className="py-8 bg-white border-t border-gray-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h3 className="text-lg font-semibold text-gray-700 mb-6">
+              Accredited & Supported By
+            </h3>
+            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+              {/* OFSTED */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="flex flex-col items-center group hover:scale-105 transition-all duration-300"
+              >
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-3 shadow-lg group-hover:shadow-xl transition-shadow">
+                  <div className="text-white font-bold text-xs text-center leading-tight">
+                    OFSTED
+                    <br />
+                    <span className="text-[10px] opacity-90">REGISTERED</span>
+                  </div>
+                </div>
+                <div className="text-xs text-gray-600 text-center font-medium">
+                  Quality
+                  <br />
+                  Assured
+                </div>
+              </motion.div>
+
+              {/* Early Years Foundation Stage */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="flex flex-col items-center group hover:scale-105 transition-all duration-300"
+              >
+                <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center mb-3 shadow-lg group-hover:shadow-xl transition-shadow">
+                  <div className="text-white font-bold text-xs text-center leading-tight">
+                    EYFS
+                    <br />
+                    <span className="text-[10px] opacity-90">COMPLIANT</span>
+                  </div>
+                </div>
+                <div className="text-xs text-gray-600 text-center font-medium">
+                  Early Years
+                  <br />
+                  Foundation
+                </div>
+              </motion.div>
+
+              {/* NDNA */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="flex flex-col items-center group hover:scale-105 transition-all duration-300"
+              >
+                <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mb-3 shadow-lg group-hover:shadow-xl transition-shadow">
+                  <div className="text-white font-bold text-xs text-center leading-tight">
+                    NDNA
+                    <br />
+                    <span className="text-[10px] opacity-90">MEMBER</span>
+                  </div>
+                </div>
+                <div className="text-xs text-gray-600 text-center font-medium">
+                  National Day
+                  <br />
+                  Nurseries
+                </div>
+              </motion.div>
+
+              {/* Local Council */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="flex flex-col items-center group hover:scale-105 transition-all duration-300"
+              >
+                <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center mb-3 shadow-lg group-hover:shadow-xl transition-shadow">
+                  <div className="text-white font-bold text-xs text-center leading-tight">
+                    CROYDON
+                    <br />
+                    <span className="text-[10px] opacity-90">COUNCIL</span>
+                  </div>
+                </div>
+                <div className="text-xs text-gray-600 text-center font-medium">
+                  Local
+                  <br />
+                  Authority
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Beautiful School Image Carousel */}
       <div className="py-12 bg-gradient-to-br from-purple-50 to-pink-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
