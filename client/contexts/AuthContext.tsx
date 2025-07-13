@@ -198,7 +198,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   // Check for demo mode on load
-  React.useEffect(() => {
+  useEffect(() => {
     const isDemo = localStorage.getItem("is_demo");
     const storedDemoUser = localStorage.getItem("demo_user");
     const storedDemoProfile = localStorage.getItem("demo_profile");
