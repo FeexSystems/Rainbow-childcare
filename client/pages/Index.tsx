@@ -664,10 +664,10 @@ export default function Index() {
               <Button
                 asChild
                 size="lg"
-                className="glass-button text-lg px-8 py-4 h-auto bg-white text-purple-600 hover:bg-white/90"
+                className="glass-button text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 h-auto bg-white text-purple-600 hover:bg-white/90"
               >
                 <a href="/apply" className="flex items-center space-x-2">
-                  <Sparkles className="w-5 h-5" />
+                  <Sparkles className="w-4 sm:w-5 h-4 sm:h-5" />
                   <span>Start Application</span>
                 </a>
               </Button>
@@ -675,10 +675,10 @@ export default function Index() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="glass-button text-lg px-8 py-4 h-auto text-white border-white/30"
+                className="glass-button text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 h-auto text-white border-white/30"
               >
                 <a href="/contact" className="flex items-center space-x-2">
-                  <Phone className="w-5 h-5" />
+                  <Phone className="w-4 sm:w-5 h-4 sm:h-5" />
                   <span>Book a Visit</span>
                 </a>
               </Button>
