@@ -65,23 +65,63 @@ export default function Login() {
         const { error } = await signIn(email, password);
 
         if (error) {
-          // For demo purposes, allow any email/password combo
+          // For demo purposes, try to create a demo user in Supabase
           if (email && password) {
-            // Create a demo profile
-            localStorage.setItem("userRole", userType);
-            localStorage.setItem("userEmail", email);
-            localStorage.setItem("isAuthenticated", "true");
+            try {
+              // Try to sign up the demo user first
+              const { data: signUpData, error: signUpError } = await signUp(
+                email,
+                password,
+                {
+                  full_name: "Demo User",
+                  role: userType,
+                  phone: "",
+                },
+              );
 
-            if (userType === "admin") {
-              navigate("/admin");
-            } else {
-              navigate("/dashboard");
+              if (
+                signUpError &&
+                !signUpError.message.includes("already registered")
+              ) {
+                throw signUpError;
+              }
+
+              // If user already exists or was just created, try to sign in again
+              const { data: signInData, error: signInError } = await signIn(
+                email,
+                password,
+              );
+
+              if (signInError) {
+                // If still failing, create a mock session for demo purposes
+                toast({
+                  title: "Demo Mode",
+                  description:
+                    "Running in demo mode. Please set up Supabase for full functionality.",
+                  variant: "destructive",
+                });
+
+                // Navigate directly for demo purposes
+                if (userType === "admin") {
+                  navigate("/admin");
+                } else {
+                  navigate("/dashboard");
+                }
+                return;
+              }
+
+              toast({
+                title: "Demo Login Successful",
+                description: "You've been logged in with demo credentials.",
+              });
+            } catch (demoError) {
+              toast({
+                title: "Authentication Error",
+                description:
+                  "Please check your Supabase configuration or use the demo mode.",
+                variant: "destructive",
+              });
             }
-
-            toast({
-              title: "Demo Login Successful",
-              description: "You've been logged in with demo credentials.",
-            });
           } else {
             throw error;
           }
