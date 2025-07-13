@@ -65,63 +65,18 @@ export default function Login() {
         const { error } = await signIn(email, password);
 
         if (error) {
-          // For demo purposes, try to create a demo user in Supabase
+          // For demo purposes, create a demo user
           if (email && password) {
-            try {
-              // Try to sign up the demo user first
-              const { data: signUpData, error: signUpError } = await signUp(
-                email,
-                password,
-                {
-                  full_name: "Demo User",
-                  role: userType,
-                  phone: "",
-                },
-              );
+            const demoResult = createDemoUser(email, userType);
 
-              if (
-                signUpError &&
-                !signUpError.message.includes("already registered")
-              ) {
-                throw signUpError;
-              }
+            toast({
+              title: "Demo Mode",
+              description:
+                "Running in demo mode. Please set up Supabase for full functionality.",
+            });
 
-              // If user already exists or was just created, try to sign in again
-              const { data: signInData, error: signInError } = await signIn(
-                email,
-                password,
-              );
-
-              if (signInError) {
-                // If still failing, create a mock session for demo purposes
-                toast({
-                  title: "Demo Mode",
-                  description:
-                    "Running in demo mode. Please set up Supabase for full functionality.",
-                  variant: "destructive",
-                });
-
-                // Navigate directly for demo purposes
-                if (userType === "admin") {
-                  navigate("/admin");
-                } else {
-                  navigate("/dashboard");
-                }
-                return;
-              }
-
-              toast({
-                title: "Demo Login Successful",
-                description: "You've been logged in with demo credentials.",
-              });
-            } catch (demoError) {
-              toast({
-                title: "Authentication Error",
-                description:
-                  "Please check your Supabase configuration or use the demo mode.",
-                variant: "destructive",
-              });
-            }
+            // Navigation will be handled by the useEffect above
+            return;
           } else {
             throw error;
           }
