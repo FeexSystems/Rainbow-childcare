@@ -298,30 +298,36 @@ export default function Index() {
           </FloatingElement>
 
           <FloatingElement delay={0.8}>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <div className="flex flex-row gap-2 sm:gap-4 justify-center mb-12">
               <Button
                 asChild
-                size="lg"
-                className="glass-button text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 h-auto"
+                size="sm"
+                className="glass-button text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 h-auto flex-1 sm:flex-none max-w-[140px] sm:max-w-none"
                 style={{
                   background: "linear-gradient(135deg, #8b5cf6, #ec4899)",
                   border: "none",
                 }}
               >
-                <a href="/apply" className="flex items-center space-x-2">
-                  <Sparkles className="w-4 sm:w-5 h-4 sm:h-5" />
+                <a
+                  href="/apply"
+                  className="flex items-center space-x-1 sm:space-x-2"
+                >
+                  <Sparkles className="w-3 sm:w-5 h-3 sm:h-5" />
                   <span>Apply Now</span>
-                  <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5" />
+                  <ArrowRight className="w-3 sm:w-5 h-3 sm:h-5" />
                 </a>
               </Button>
               <Button
                 asChild
                 variant="outline"
-                size="lg"
-                className="glass-button text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 h-auto text-white border-white/30"
+                size="sm"
+                className="glass-button text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 h-auto text-white border-white/30 flex-1 sm:flex-none max-w-[140px] sm:max-w-none"
               >
-                <a href="#virtual-tour" className="flex items-center space-x-2">
-                  <Play className="w-4 sm:w-5 h-4 sm:h-5" />
+                <a
+                  href="#virtual-tour"
+                  className="flex items-center space-x-1 sm:space-x-2"
+                >
+                  <Play className="w-3 sm:w-5 h-3 sm:h-5" />
                   <span>Virtual Tour</span>
                 </a>
               </Button>
