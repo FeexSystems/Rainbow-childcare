@@ -321,7 +321,7 @@ export default function Index() {
                 asChild
                 variant="outline"
                 size="sm"
-                className="glass-button text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 h-auto text-white border-white/30 flex-1 sm:flex-none max-w-[140px] sm:max-w-none"
+                className="glass-button text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 h-auto text-gray-800 bg-white/20 border-white/50 hover:bg-white/30 hover:text-gray-900 flex-1 sm:flex-none max-w-[140px] sm:max-w-none"
               >
                 <a
                   href="#virtual-tour"
