@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -61,6 +61,8 @@ export default function Index() {
   const { user } = useAuth();
   const [currentVideo, setCurrentVideo] = useState(0);
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
+  const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0);
+  const featuresScrollRef = useRef<HTMLDivElement>(null);
 
   const heroVideos = [
     {
@@ -207,6 +209,26 @@ export default function Index() {
     }, 8000);
     return () => clearInterval(interval);
   }, []);
+
+  // Auto-scroll features on mobile
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (featuresScrollRef.current) {
+        const nextIndex = (currentFeatureIndex + 1) % features.length;
+        setCurrentFeatureIndex(nextIndex);
+
+        const cardWidth = 320; // w-80 = 320px + gap
+        const scrollPosition = nextIndex * cardWidth;
+
+        featuresScrollRef.current.scrollTo({
+          left: scrollPosition,
+          behavior: "smooth",
+        });
+      }
+    }, 3000); // 3 seconds as requested
+
+    return () => clearInterval(interval);
+  }, [currentFeatureIndex, features.length]);
 
   return (
     <div className="min-h-screen">
@@ -431,9 +453,21 @@ export default function Index() {
             ))}
           </div>
 
-          {/* Mobile Scrollable Version */}
+          {/* Mobile Scrollable Version with Auto-scroll */}
           <div className="md:hidden">
-            <div className="flex overflow-x-auto space-x-6 pb-6 scrollbar-hide">
+            <div
+              ref={featuresScrollRef}
+              className="flex overflow-x-auto space-x-6 pb-6 scrollbar-hide snap-x snap-mandatory"
+              onScroll={(e) => {
+                // Update current index based on scroll position for manual scrolling
+                const scrollLeft = e.currentTarget.scrollLeft;
+                const cardWidth = 320;
+                const newIndex = Math.round(scrollLeft / cardWidth);
+                if (newIndex !== currentFeatureIndex) {
+                  setCurrentFeatureIndex(newIndex);
+                }
+              }}
+            >
               {features.map((feature, index) => (
                 <motion.div
                   key={`mobile-${index}`}
@@ -441,7 +475,7 @@ export default function Index() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="flex-shrink-0 w-80"
+                  className="flex-shrink-0 w-80 snap-center"
                 >
                   <InteractiveCard>
                     <div className="glass-card p-6 h-full">
@@ -457,6 +491,30 @@ export default function Index() {
                     </div>
                   </InteractiveCard>
                 </motion.div>
+              ))}
+            </div>
+
+            {/* Mobile Features Indicators */}
+            <div className="flex justify-center mt-4 space-x-2">
+              {features.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setCurrentFeatureIndex(index);
+                    if (featuresScrollRef.current) {
+                      const cardWidth = 320;
+                      featuresScrollRef.current.scrollTo({
+                        left: index * cardWidth,
+                        behavior: "smooth",
+                      });
+                    }
+                  }}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    index === currentFeatureIndex
+                      ? "w-8 bg-purple-500"
+                      : "w-2 bg-gray-300"
+                  }`}
+                />
               ))}
             </div>
           </div>
