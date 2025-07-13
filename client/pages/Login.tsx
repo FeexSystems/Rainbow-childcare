@@ -273,42 +273,56 @@ export default function Login() {
                 )}
               </Button>
 
-              {/* Quick Demo Button */}
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full mt-3"
-                onClick={async () => {
-                  setLoading(true);
-                  try {
-                    const demoResult = createDemoUser(
-                      "demo@nursery.com",
-                      "parent",
-                    );
-                    toast({
-                      title: "Demo Mode Activated",
-                      description:
-                        "You're now logged in as a demo parent user.",
-                    });
-
-                    // Navigation will be handled by useEffect in this component
-                    setTimeout(() => {
-                      navigate("/dashboard");
-                    }, 500);
-                  } catch (error) {
-                    toast({
-                      title: "Demo Error",
-                      description: "Failed to activate demo mode.",
-                      variant: "destructive",
-                    });
-                  } finally {
-                    setLoading(false);
-                  }
-                }}
-                disabled={loading}
-              >
-                🚀 Try Demo Now
-              </Button>
+              {/* Quick Demo Buttons */}
+              <div className="mt-3 space-y-2">
+                <p className="text-xs text-gray-500 text-center">
+                  Quick Demo Access:
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={async () => {
+                      setLoading(true);
+                      try {
+                        createDemoUser("parent@demo.com", "parent");
+                        toast({
+                          title: "Demo Parent",
+                          description: "Logged in as demo parent.",
+                        });
+                        setTimeout(() => navigate("/dashboard"), 500);
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                    disabled={loading}
+                  >
+                    👨‍👩‍👧‍👦 Parent
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={async () => {
+                      setLoading(true);
+                      try {
+                        createDemoUser("admin@demo.com", "admin");
+                        toast({
+                          title: "Demo Admin",
+                          description: "Logged in as demo admin.",
+                        });
+                        setTimeout(() => navigate("/dashboard"), 500);
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                    disabled={loading}
+                  >
+                    ⚙️ Admin
+                  </Button>
+                </div>
+              </div>
             </form>
 
             {/* Additional Options */}
