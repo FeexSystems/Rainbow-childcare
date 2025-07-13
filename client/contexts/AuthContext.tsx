@@ -155,18 +155,99 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return await updatePassword(password);
   };
 
+  // Demo user functionality for testing
+  const createDemoUser = (email: string, role: string) => {
+    const demoUser = {
+      id: `demo-${Date.now()}`,
+      email: email,
+      email_confirmed_at: new Date().toISOString(),
+      user_metadata: { full_name: "Demo User", role },
+      app_metadata: {},
+      aud: "authenticated",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    } as any;
+
+    const demoProfile = {
+      id: demoUser.id,
+      email: email,
+      full_name: "Demo User",
+      role: role as any,
+      phone: null,
+      avatar_url: null,
+      emergency_contact_name: null,
+      emergency_contact_phone: null,
+      address: null,
+      date_of_birth: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    setUser(demoUser);
+    setProfile(demoProfile);
+    setIsEmailConfirmed(true);
+    setLoading(false);
+
+    // Store demo state in localStorage for persistence
+    localStorage.setItem("demo_user", JSON.stringify(demoUser));
+    localStorage.setItem("demo_profile", JSON.stringify(demoProfile));
+    localStorage.setItem("is_demo", "true");
+
+    return { data: { user: demoUser }, error: null };
+  };
+
+  // Check for demo mode on load
+  React.useEffect(() => {
+    const isDemo = localStorage.getItem("is_demo");
+    const storedDemoUser = localStorage.getItem("demo_user");
+    const storedDemoProfile = localStorage.getItem("demo_profile");
+
+    if (isDemo && storedDemoUser && storedDemoProfile) {
+      try {
+        const demoUser = JSON.parse(storedDemoUser);
+        const demoProfile = JSON.parse(storedDemoProfile);
+        setUser(demoUser);
+        setProfile(demoProfile);
+        setIsEmailConfirmed(true);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error loading demo user:", error);
+        localStorage.removeItem("demo_user");
+        localStorage.removeItem("demo_profile");
+        localStorage.removeItem("is_demo");
+      }
+    }
+  }, []);
+
+  const signOutDemo = () => {
+    localStorage.removeItem("demo_user");
+    localStorage.removeItem("demo_profile");
+    localStorage.removeItem("is_demo");
+    setUser(null);
+    setProfile(null);
+    setIsEmailConfirmed(false);
+  };
+
   const value = {
     user,
     profile,
     loading,
     signIn,
     signUp,
-    signOut,
+    signOut: async () => {
+      const isDemo = localStorage.getItem("is_demo");
+      if (isDemo) {
+        signOutDemo();
+      } else {
+        await signOut();
+      }
+    },
     updateProfile,
     resendConfirmation: handleResendConfirmation,
     resetPassword: handleResetPassword,
     updatePassword: handleUpdatePassword,
     isEmailConfirmed,
+    createDemoUser, // Expose for demo login
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
