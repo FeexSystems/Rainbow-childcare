@@ -30,6 +30,8 @@ import Settings from "./pages/Settings";
 import Features from "./pages/Features";
 import HillCrestNursery from "./pages/HillCrestNursery";
 import RainbowStarsNursery from "./pages/RainbowStarsNursery";
+import AuthCallback from "./pages/AuthCallback";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +68,11 @@ const App = () => (
                 <Route
                   path="/nurseries/rainbow-stars"
                   element={<RainbowStarsNursery />}
+                />
+                <Route path="/auth/callback" element={<AuthCallback />} />
+                <Route
+                  path="/auth/reset-password"
+                  element={<ResetPassword />}
                 />
                 <Route path="*" element={<NotFound />} />
               </Routes>
