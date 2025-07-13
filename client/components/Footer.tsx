@@ -386,7 +386,7 @@ export function Footer() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="border-white text-white hover:bg-white hover:text-purple-600"
+                  className="border-white text-white bg-white/10 hover:bg-white hover:text-purple-600"
                 >
                   Visit Rainbow Stars
                 </Button>
