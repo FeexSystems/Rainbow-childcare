@@ -280,26 +280,26 @@ export default function Index() {
               <Button
                 asChild
                 size="lg"
-                className="glass-button text-lg px-8 py-4 h-auto"
+                className="glass-button text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 h-auto"
                 style={{
                   background: "linear-gradient(135deg, #8b5cf6, #ec4899)",
                   border: "none",
                 }}
               >
                 <a href="/apply" className="flex items-center space-x-2">
-                  <Sparkles className="w-5 h-5" />
+                  <Sparkles className="w-4 sm:w-5 h-4 sm:h-5" />
                   <span>Apply Now</span>
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5" />
                 </a>
               </Button>
               <Button
                 asChild
                 variant="outline"
                 size="lg"
-                className="glass-button text-lg px-8 py-4 h-auto text-white border-white/30"
+                className="glass-button text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 h-auto text-white border-white/30"
               >
                 <a href="#virtual-tour" className="flex items-center space-x-2">
-                  <Play className="w-5 h-5" />
+                  <Play className="w-4 sm:w-5 h-4 sm:h-5" />
                   <span>Virtual Tour</span>
                 </a>
               </Button>
@@ -308,7 +308,8 @@ export default function Index() {
 
           {/* Quick Stats */}
           <FloatingElement delay={1.0}>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            {/* Desktop Version */}
+            <div className="hidden md:grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
               {[
                 { number: "15+", label: "Years Experience", icon: Award },
                 { number: "200+", label: "Happy Families", icon: Heart },
@@ -325,6 +326,35 @@ export default function Index() {
                   </div>
                 </InteractiveCard>
               ))}
+            </div>
+
+            {/* Mobile Scrollable Version */}
+            <div className="md:hidden">
+              <div className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide px-4">
+                {[
+                  { number: "15+", label: "Years Experience", icon: Award },
+                  { number: "200+", label: "Happy Families", icon: Heart },
+                  { number: "2", label: "Locations", icon: MapPin },
+                  { number: "100%", label: "Satisfaction", icon: Star },
+                ].map((stat, index) => (
+                  <div
+                    key={`mobile-stat-${index}`}
+                    className="flex-shrink-0 w-40"
+                  >
+                    <InteractiveCard>
+                      <div className="glass-card p-4 text-center">
+                        <stat.icon className="w-6 h-6 mx-auto mb-2 text-yellow-400" />
+                        <div className="text-xl font-bold text-white">
+                          {stat.number}
+                        </div>
+                        <div className="text-xs text-white/80">
+                          {stat.label}
+                        </div>
+                      </div>
+                    </InteractiveCard>
+                  </div>
+                ))}
+              </div>
             </div>
           </FloatingElement>
         </div>
