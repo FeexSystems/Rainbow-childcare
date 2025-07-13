@@ -218,7 +218,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         localStorage.removeItem("is_demo");
       }
     }
-  }, []);
+  }, []); // Empty dependency array for one-time check on mount
 
   const signOutDemo = () => {
     localStorage.removeItem("demo_user");
