@@ -28,6 +28,8 @@ import QRPickup from "./pages/QRPickup";
 import Messageboard from "./pages/Messageboard";
 import Settings from "./pages/Settings";
 import Features from "./pages/Features";
+import HillCrestNursery from "./pages/HillCrestNursery";
+import RainbowStarsNursery from "./pages/RainbowStarsNursery";
 
 const queryClient = new QueryClient();
 
@@ -57,6 +59,14 @@ const App = () => (
                 <Route path="/messageboard" element={<Messageboard />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/features" element={<Features />} />
+                <Route
+                  path="/nurseries/hillcrest"
+                  element={<HillCrestNursery />}
+                />
+                <Route
+                  path="/nurseries/rainbow-stars"
+                  element={<RainbowStarsNursery />}
+                />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
