@@ -14,7 +14,11 @@ import {
   ArrowRight,
   Save,
   FileText,
+  Loader2,
 } from "lucide-react";
+import { submitApplication } from "@/lib/supabase";
+import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
 
 interface FormData {
   // Step 1: Child Information
@@ -47,6 +51,9 @@ const STORAGE_KEY = "nursery_application_draft";
 
 export default function Apply() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
     childName: "",
     childDOB: "",
@@ -124,11 +131,75 @@ export default function Apply() {
     }
   };
 
-  const submitApplication = () => {
-    // Here you would typically send the data to your backend
-    console.log("Submitting application:", formData);
-    alert("Application submitted successfully! We'll be in touch soon.");
-    localStorage.removeItem(STORAGE_KEY);
+  const submitApplicationForm = async () => {
+    if (!formData.agreedToTerms) {
+      toast({
+        title: "Terms Required",
+        description:
+          "Please agree to the terms and conditions before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSubmitting(true);
+
+    try {
+      // Map form data to application schema
+      const applicationData = {
+        parent_email: formData.parentEmail,
+        parent_name: formData.parentName,
+        parent_phone: formData.parentPhone,
+        child_name: formData.childName,
+        child_dob: formData.childDOB,
+        preferred_nursery:
+          formData.preferredNursery === "hillcrest"
+            ? ("hillcrest" as const)
+            : ("rainbow_stars" as const),
+        preferred_start_date: formData.startDate || null,
+        days_required: [], // You might want to add this to the form
+        hours_required: formData.sessionType,
+        additional_info: `
+Child Address: ${formData.childAddress}
+Allergies: ${formData.allergies}
+Medical Conditions: ${formData.medicalConditions}
+Parent Occupation: ${formData.parentOccupation}
+Emergency Contact: ${formData.emergencyContact} (${formData.emergencyPhone})
+Additional Requests: ${formData.additionalRequests}
+Documents: ${formData.documents.join(", ")}
+        `.trim(),
+      };
+
+      const { data, error } = await submitApplication(applicationData);
+
+      if (error) {
+        toast({
+          title: "Submission Failed",
+          description:
+            error.message || "Failed to submit application. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setSubmitted(true);
+      localStorage.removeItem(STORAGE_KEY);
+
+      toast({
+        title: "Application Submitted!",
+        description:
+          "Thank you! We'll review your application and be in touch soon.",
+      });
+    } catch (error) {
+      console.error("Error submitting application:", error);
+      toast({
+        title: "Submission Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const stepItems = [
