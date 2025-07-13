@@ -666,25 +666,31 @@ export default function Index() {
               Give your child the best start with our caring, professional team
               and modern facilities.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-row gap-2 sm:gap-4 justify-center">
               <Button
                 asChild
-                size="lg"
-                className="glass-button text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 h-auto bg-white text-purple-600 hover:bg-white/90"
+                size="sm"
+                className="glass-button text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 h-auto bg-white text-purple-600 hover:bg-white/90 flex-1 sm:flex-none max-w-[150px] sm:max-w-none"
               >
-                <a href="/apply" className="flex items-center space-x-2">
-                  <Sparkles className="w-4 sm:w-5 h-4 sm:h-5" />
+                <a
+                  href="/apply"
+                  className="flex items-center space-x-1 sm:space-x-2"
+                >
+                  <Sparkles className="w-3 sm:w-5 h-3 sm:h-5" />
                   <span>Start Application</span>
                 </a>
               </Button>
               <Button
                 asChild
                 variant="outline"
-                size="lg"
-                className="glass-button text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 h-auto text-white border-white/30"
+                size="sm"
+                className="glass-button text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 h-auto text-white border-white/30 flex-1 sm:flex-none max-w-[120px] sm:max-w-none"
               >
-                <a href="/contact" className="flex items-center space-x-2">
-                  <Phone className="w-4 sm:w-5 h-4 sm:h-5" />
+                <a
+                  href="/contact"
+                  className="flex items-center space-x-1 sm:space-x-2"
+                >
+                  <Phone className="w-3 sm:w-5 h-3 sm:h-5" />
                   <span>Book a Visit</span>
                 </a>
               </Button>
