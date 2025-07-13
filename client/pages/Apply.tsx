@@ -567,8 +567,8 @@ Documents: ${formData.documents.join(", ")}
 
               {currentStep === totalSteps ? (
                 <Button
-                  onClick={submitApplication}
-                  disabled={!formData.agreedToTerms}
+                  onClick={submitApplicationForm}
+                  disabled={!formData.agreedToTerms || submitting}
                   className="bg-green-600 hover:bg-green-700 flex items-center space-x-2"
                 >
                   <FileText className="w-4 h-4" />
