@@ -26,7 +26,7 @@ export default function Login() {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
 
-  const { signIn, signUp, user, profile } = useAuth();
+  const { signIn, signUp, user, profile, createDemoUser } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
