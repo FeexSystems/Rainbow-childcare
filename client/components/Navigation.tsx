@@ -11,7 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { LogOut, User, Settings } from "lucide-react";
+import { LogOut, User, Settings, ChevronDown, Menu, X } from "lucide-react";
+import { useState } from "react";
 
 const StarLogo = () => (
   <div className="flex items-center space-x-2">
@@ -47,11 +48,28 @@ const StarLogo = () => (
 export function Navigation() {
   const location = useLocation();
   const { user, profile, signOut } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const nurseryItems = [
+    {
+      name: "HillCrest Rising Stars",
+      path: "/nurseries/hillcrest",
+      description: "Toddlers, Preschoolers",
+    },
+    {
+      name: "Rainbow Stars Croydon",
+      path: "/nurseries/rainbow-stars",
+      description:
+        "Baby Room, Toddler Room, Pre-School Room, Sensory Room, Dining Room",
+    },
+  ];
 
   const publicNavItems = [
     { name: "HOME", path: "/" },
     { name: "ABOUT", path: "/about" },
-    { name: "OUR NURSERIES", path: "/nurseries" },
+    { name: "OUR NURSERIES", path: "/nurseries", hasDropdown: true },
+    { name: "POLICIES", path: "/policies" },
+    { name: "FEES", path: "/fees" },
     { name: "CONTACT", path: "/contact" },
     { name: "APPLY FOR A PLACE", path: "/apply" },
   ];
@@ -84,20 +102,62 @@ export function Navigation() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-nursery-purple",
-                  location.pathname === item.path
-                    ? "text-nursery-purple border-b-2 border-nursery-purple pb-1"
-                    : "text-gray-700",
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              if (item.hasDropdown && item.name === "OUR NURSERIES") {
+                return (
+                  <DropdownMenu key={item.name}>
+                    <DropdownMenuTrigger
+                      className={cn(
+                        "flex items-center space-x-1 text-sm font-medium transition-colors hover:text-nursery-purple",
+                        location.pathname.startsWith("/nurseries")
+                          ? "text-nursery-purple border-b-2 border-nursery-purple pb-1"
+                          : "text-gray-700",
+                      )}
+                    >
+                      <span>{item.name}</span>
+                      <ChevronDown className="h-4 w-4" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-80">
+                      {nurseryItems.map((nursery) => (
+                        <DropdownMenuItem key={nursery.name} asChild>
+                          <Link
+                            to={nursery.path}
+                            className="flex flex-col items-start p-4 space-y-1"
+                          >
+                            <div className="font-medium text-nursery-purple">
+                              {nursery.name}
+                            </div>
+                            <div className="text-sm text-gray-600">
+                              {nursery.description}
+                            </div>
+                          </Link>
+                        </DropdownMenuItem>
+                      ))}
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link to="/nurseries" className="p-4 font-medium">
+                          View All Nurseries
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                );
+              }
+              return (
+                <Link
+                  key={item.name}
+                  to={item.path}
+                  className={cn(
+                    "text-sm font-medium transition-colors hover:text-nursery-purple",
+                    location.pathname === item.path
+                      ? "text-nursery-purple border-b-2 border-nursery-purple pb-1"
+                      : "text-gray-700",
+                  )}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Actions */}
@@ -178,67 +238,139 @@ export function Navigation() {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
-            {user && profile ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="relative h-8 w-8 rounded-full"
-                  >
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage
-                        src={profile.avatar_url || ""}
-                        alt={profile.full_name}
-                      />
-                      <AvatarFallback className="bg-nursery-purple text-white">
-                        {profile.full_name
-                          ?.split(" ")
-                          .map((n) => n[0])
-                          .join("")}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end">
-                  <DropdownMenuItem onClick={handleSignOut}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Sign Out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Button
-                asChild
-                variant="outline"
-                size="sm"
-                className="border-gray-300 text-gray-700 hover:bg-gray-50"
-              >
-                <Link to="/login">Sign In</Link>
-              </Button>
-            )}
+          <div className="md:hidden flex items-center space-x-2">
+            {user && profile && <NotificationSystem />}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </Button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        <div className="md:hidden pb-4">
-          <div className="flex flex-wrap gap-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={cn(
-                  "text-sm font-medium transition-colors hover:text-nursery-purple",
-                  location.pathname === item.path
-                    ? "text-nursery-purple"
-                    : "text-gray-700",
+        {isMobileMenuOpen && (
+          <div className="md:hidden border-t border-white/20 mt-4">
+            <div className="py-4 space-y-3">
+              {navItems.map((item) => {
+                if (item.hasDropdown && item.name === "OUR NURSERIES") {
+                  return (
+                    <div key={item.name} className="space-y-2">
+                      <div className="text-sm font-medium text-gray-700 px-2">
+                        {item.name}
+                      </div>
+                      <div className="pl-4 space-y-2">
+                        {nurseryItems.map((nursery) => (
+                          <Link
+                            key={nursery.name}
+                            to={nursery.path}
+                            onClick={() => setIsMobileMenuOpen(false)}
+                            className="block py-2 px-2 text-sm text-gray-600 hover:text-nursery-purple transition-colors"
+                          >
+                            <div className="font-medium">{nursery.name}</div>
+                            <div className="text-xs text-gray-500">
+                              {nursery.description}
+                            </div>
+                          </Link>
+                        ))}
+                        <Link
+                          to="/nurseries"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="block py-2 px-2 text-sm font-medium text-nursery-purple hover:text-nursery-purple/80 transition-colors"
+                        >
+                          View All Nurseries
+                        </Link>
+                      </div>
+                    </div>
+                  );
+                }
+                return (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={cn(
+                      "block py-2 px-2 text-sm font-medium transition-colors hover:text-nursery-purple",
+                      location.pathname === item.path
+                        ? "text-nursery-purple bg-white/10 rounded"
+                        : "text-gray-700",
+                    )}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
+
+              {/* Mobile Auth Actions */}
+              <div className="pt-4 border-t border-white/20 space-y-2">
+                {user && profile ? (
+                  <>
+                    <div className="px-2 py-2 text-sm">
+                      <div className="font-medium text-gray-700">
+                        {profile.full_name}
+                      </div>
+                      <div className="text-xs text-gray-500">
+                        {profile.email}
+                      </div>
+                      <div className="text-xs text-gray-500 capitalize">
+                        {profile.role.replace("_", " ")}
+                      </div>
+                    </div>
+                    <Link
+                      to="/dashboard"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block py-2 px-2 text-sm font-medium text-gray-700 hover:text-nursery-purple transition-colors"
+                    >
+                      Dashboard
+                    </Link>
+                    {profile.role === "admin" && (
+                      <Link
+                        to="/admin"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block py-2 px-2 text-sm font-medium text-gray-700 hover:text-nursery-purple transition-colors"
+                      >
+                        Admin Panel
+                      </Link>
+                    )}
+                    <button
+                      onClick={() => {
+                        handleSignOut();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="block w-full text-left py-2 px-2 text-sm font-medium text-red-600 hover:text-red-700 transition-colors"
+                    >
+                      Sign Out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block py-2 px-2 text-sm font-medium text-gray-700 hover:text-nursery-purple transition-colors"
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      to="/apply"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="block py-2 px-2 text-sm font-medium bg-nursery-purple text-white rounded hover:bg-nursery-purple/90 transition-colors"
+                    >
+                      Apply Now
+                    </Link>
+                  </>
                 )}
-              >
-                {item.name}
-              </Link>
-            ))}
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </nav>
   );
