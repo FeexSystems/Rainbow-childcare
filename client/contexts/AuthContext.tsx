@@ -20,6 +20,7 @@ interface AuthContextType {
   resetPassword: (email: string) => Promise<any>;
   updatePassword: (password: string) => Promise<any>;
   isEmailConfirmed: boolean;
+  createDemoUser: (email: string, role: string) => any;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
