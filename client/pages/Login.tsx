@@ -278,12 +278,9 @@ export default function Login() {
                 type="button"
                 variant="outline"
                 className="w-full mt-3"
-                onClick={() => {
-                  setEmail("demo@nursery.com");
-                  setPassword("demo123");
-                  setUserType("parent");
-                  // Auto-submit after setting values
-                  setTimeout(() => {
+                onClick={async () => {
+                  setLoading(true);
+                  try {
                     const demoResult = createDemoUser(
                       "demo@nursery.com",
                       "parent",
@@ -293,7 +290,20 @@ export default function Login() {
                       description:
                         "You're now logged in as a demo parent user.",
                     });
-                  }, 100);
+
+                    // Navigation will be handled by useEffect in this component
+                    setTimeout(() => {
+                      navigate("/dashboard");
+                    }, 500);
+                  } catch (error) {
+                    toast({
+                      title: "Demo Error",
+                      description: "Failed to activate demo mode.",
+                      variant: "destructive",
+                    });
+                  } finally {
+                    setLoading(false);
+                  }
                 }}
                 disabled={loading}
               >
