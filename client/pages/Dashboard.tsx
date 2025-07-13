@@ -37,8 +37,30 @@ export default function Dashboard() {
     );
   }
 
-  // If user exists but no profile, try to create one
+  // If user exists but no profile, check if it's demo mode or try to create profile
   if (user && !profile && !creatingProfile) {
+    const isDemo = localStorage.getItem("is_demo");
+
+    if (isDemo) {
+      // For demo mode, create a basic profile object
+      const demoProfile = {
+        id: user.id,
+        email: user.email || "",
+        full_name: user.user_metadata?.full_name || "Demo User",
+        role: user.user_metadata?.role || "parent",
+        phone: null,
+        avatar_url: null,
+        emergency_contact_name: null,
+        emergency_contact_phone: null,
+        address: null,
+        date_of_birth: null,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
+      return <InteractiveDashboard userRole={demoProfile.role as any} />;
+    }
+
     const createProfile = async () => {
       setCreatingProfile(true);
       try {
