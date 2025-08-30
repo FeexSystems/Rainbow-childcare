@@ -11,6 +11,13 @@ import { useToast } from "@/hooks/use-toast";
 import { submitVisitBooking } from "@/lib/supabase";
 import { motion } from "framer-motion";
 
+function getDaysInMonth(year: number, month: number) {
+  return new Date(year, month + 1, 0).getDate();
+}
+function getFirstDayOfMonth(year: number, month: number) {
+  return new Date(year, month, 1).getDay();
+}
+
 export default function Booking() {
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
@@ -38,6 +45,10 @@ export default function Booking() {
   ];
 
   const update = (k: string, v: any) => setForm((s) => ({ ...s, [k]: v }));
+  const [calendarMonth, setCalendarMonth] = useState(() => {
+    const d = new Date();
+    return new Date(d.getFullYear(), d.getMonth(), 1);
+  });
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -152,9 +163,26 @@ export default function Booking() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="space-y-2">
                       <Label>Date *</Label>
-                      <div className="relative">
-                        <Input type="date" value={form.date} onChange={(e) => update("date", e.target.value)} />
-                        <Calendar className="w-4 h-4 text-gray-400 absolute right-3 top-3" />
+                      <div className="rounded-xl border bg-white p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <Button type="button" variant="outline" size="sm" onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth()-1, 1))}>Prev</Button>
+                          <div className="font-semibold">{calendarMonth.toLocaleString(undefined, { month: "long", year: "numeric" })}</div>
+                          <Button type="button" variant="outline" size="sm" onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth()+1, 1))}>Next</Button>
+                        </div>
+                        <div className="grid grid-cols-7 gap-1 text-xs text-gray-600 mb-1">
+                          {["Su","Mo","Tu","We","Th","Fr","Sa"].map((d)=> (<div key={d} className="text-center py-1">{d}</div>))}
+                        </div>
+                        <div className="grid grid-cols-7 gap-1">
+                          {Array.from({ length: getFirstDayOfMonth(calendarMonth.getFullYear(), calendarMonth.getMonth()) }).map((_,i)=> (<div key={`pad-${i}`} className="h-8" />))}
+                          {Array.from({ length: getDaysInMonth(calendarMonth.getFullYear(), calendarMonth.getMonth()) }).map((_,i)=> {
+                            const day = i + 1;
+                            const dateStr = `${calendarMonth.getFullYear()}-${String(calendarMonth.getMonth()+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                            const isSelected = form.date === dateStr;
+                            return (
+                              <button type="button" key={day} onClick={() => update("date", dateStr)} className={`h-8 rounded-md text-sm flex items-center justify-center border ${isSelected ? "bg-nursery-purple text-white border-nursery-purple" : "bg-white hover:bg-gray-50"}`}>{day}</button>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
                     <div className="space-y-2 md:col-span-2">
