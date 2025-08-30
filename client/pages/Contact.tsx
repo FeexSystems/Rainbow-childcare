@@ -165,45 +165,21 @@ export default function Contact() {
                   <MapPin className="w-6 h-6 text-nursery-purple mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-gray-900">
-                      Hillcrest Rising Stars
+                      Rainbow Childcare
                     </h3>
                     <p className="text-gray-600">
-                      Clockhouse Community Association
+                      123 Rainbow Street
                       <br />
-                      Hillcrest Hall, Fyshton Avenue
-                      <br />
-                      Coulsdon, Surrey
-                      <br />
-                      CR5 2PT
+                      City
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <MapPin className="w-6 h-6 text-nursery-purple mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900">
-                      Rainbow Stars Nursery
-                    </h3>
-                    <p className="text-gray-600">
-                      1A Headcorn Road
-                      <br />
-                      Thornton Heath
-                      <br />
-                      Croydon, Surrey
-                      <br />
-                      CR7 6RJ
-                    </p>
-                  </div>
-                </div>
 
                 <div className="flex items-center space-x-4">
                   <Phone className="w-6 h-6 text-nursery-purple flex-shrink-0" />
                   <div>
-                    <p className="text-gray-600">07340 960829</p>
-                    <p className="text-gray-600">
-                      020 3827 6414 / 07368 429760
-                    </p>
+                    <p className="text-gray-600">(555) 123-4567</p>
                   </div>
                 </div>
 
@@ -211,10 +187,7 @@ export default function Contact() {
                   <Mail className="w-6 h-6 text-nursery-purple flex-shrink-0" />
                   <div>
                     <p className="text-gray-600">
-                      hillcrest.risingstarsnursery@outlook.com
-                    </p>
-                    <p className="text-gray-600">
-                      rainbowstarsnursery@gmail.com
+                      info@rainbowchildcare.com
                     </p>
                   </div>
                 </div>
