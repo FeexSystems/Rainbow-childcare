@@ -90,6 +90,13 @@ export function Navigation() {
                   <span>{name}</span>
                 </Link>
               ))}
+              <Link
+                to="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="mt-2 mx-2 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm px-4 py-2 shadow"
+              >
+                Join Us
+              </Link>
             </div>
           </div>
         )}
