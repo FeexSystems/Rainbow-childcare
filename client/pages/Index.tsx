@@ -260,18 +260,6 @@ export default function Index() {
 
         {/* Hero Content */}
         <div className="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FloatingElement delay={0.2}>
-            <motion.div
-              animate={{ rotate: [0, 5, -5, 0] }}
-              transition={{ duration: 4, repeat: Infinity }}
-              className="inline-block mb-6"
-            >
-              <div className="w-20 h-20 mx-auto mb-4 glass-card rounded-full flex items-center justify-center">
-                <Star className="w-10 h-10 text-yellow-400 glow-effect" />
-              </div>
-            </motion.div>
-          </FloatingElement>
-
           <FloatingElement delay={0.45}>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/90 text-white text-xs md:text-sm shadow-sm">
               <span className="inline-block h-2 w-2 rounded-full bg-white/90" />
