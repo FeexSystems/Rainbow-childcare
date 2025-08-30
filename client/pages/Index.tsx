@@ -232,7 +232,7 @@ export default function Index() {
   return (
     <div className="min-h-screen">
       {/* Hero Section with Video Background */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[calc(100vh-4rem)] sm:min-h-screen flex items-center justify-center overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0 animated-gradient opacity-20"></div>
 
@@ -258,7 +258,7 @@ export default function Index() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 sm:pt-28">
           <FloatingElement delay={0.45}>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/90 text-white text-xs md:text-sm shadow-sm">
               <span className="inline-block h-2 w-2 rounded-full bg-white/90" />
@@ -267,14 +267,14 @@ export default function Index() {
           </FloatingElement>
 
           <FloatingElement delay={0.4}>
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
               <span>Welcome to </span>
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Rainbow Childcare</span>
             </h1>
           </FloatingElement>
 
           <FloatingElement delay={0.6}>
-            <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
               Where every child's journey begins with love, learning, and laughter. We provide exceptional childcare services in a safe, nurturing environment
             </p>
           </FloatingElement>
@@ -339,30 +339,21 @@ export default function Index() {
             </div>
 
             {/* Mobile Scrollable Version */}
-            <div className="md:hidden">
-              <div className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide px-4">
+            <div className="md:hidden px-4">
+              <div className="grid grid-cols-2 gap-4">
                 {[
                   { number: "15+", label: "Years Experience", icon: Award },
                   { number: "200+", label: "Happy Families", icon: Heart },
                   { number: "2", label: "Locations", icon: MapPin },
                   { number: "100%", label: "Satisfaction", icon: Star },
                 ].map((stat, index) => (
-                  <div
-                    key={`mobile-stat-${index}`}
-                    className="flex-shrink-0 w-40"
-                  >
-                    <InteractiveCard>
-                      <div className="glass-card p-4 text-center">
-                        <stat.icon className="w-6 h-6 mx-auto mb-2 text-yellow-400" />
-                        <div className="text-xl font-bold text-white">
-                          {stat.number}
-                        </div>
-                        <div className="text-xs text-white/80">
-                          {stat.label}
-                        </div>
-                      </div>
-                    </InteractiveCard>
-                  </div>
+                  <InteractiveCard key={`mobile-stat-${index}`}>
+                    <div className="glass-card p-4 text-center">
+                      <stat.icon className="w-6 h-6 mx-auto mb-2 text-yellow-400" />
+                      <div className="text-xl font-bold text-white">{stat.number}</div>
+                      <div className="text-xs text-white/80">{stat.label}</div>
+                    </div>
+                  </InteractiveCard>
                 ))}
               </div>
             </div>
