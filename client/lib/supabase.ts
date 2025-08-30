@@ -176,6 +176,21 @@ export interface ContactSubmission {
   created_at: string;
 }
 
+export interface VisitBooking {
+  id: string;
+  location: "hillcrest" | "rainbow_stars";
+  visit_date: string;
+  time_slot: string;
+  attendees: number;
+  child_age_group: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  notes: string | null;
+  consent_contact: boolean;
+  created_at: string;
+}
+
 export interface Event {
   id: string;
   title: string;
@@ -339,6 +354,16 @@ export const submitContactForm = async (
 };
 
 // Get user's children
+export const submitVisitBooking = async (
+  payload: Omit<VisitBooking, "id" | "created_at">,
+) => {
+  return await supabase
+    .from("visit_bookings")
+    .insert([payload])
+    .select()
+    .single();
+};
+
 export const getUserChildren = async (userId: string) => {
   return await supabase
     .from("children")

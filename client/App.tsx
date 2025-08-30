@@ -27,6 +27,9 @@ import Afterschool from "./pages/Afterschool";
 import PreNursery from "./pages/PreNursery";
 import AuthCallback from "./pages/AuthCallback";
 import ResetPassword from "./pages/ResetPassword";
+import Contact from "./pages/Contact";
+import Apply from "./pages/Apply";
+import Booking from "./pages/Booking";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +55,9 @@ const App = () => (
                 <Route path="/day-nursery" element={<DayNursery />} />
                 <Route path="/afterschool" element={<Afterschool />} />
                 <Route path="/pre-nursery" element={<PreNursery />} />
+                <Route path="/apply" element={<Apply />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/book-visit" element={<Booking />} />
                 <Route path="/auth/callback" element={<AuthCallback />} />
                 <Route
                   path="/auth/reset-password"
