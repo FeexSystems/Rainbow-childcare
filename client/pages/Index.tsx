@@ -272,28 +272,23 @@ export default function Index() {
             </motion.div>
           </FloatingElement>
 
+          <FloatingElement delay={0.45}>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/90 text-white text-xs md:text-sm shadow-sm">
+              <span className="inline-block h-2 w-2 rounded-full bg-white/90" />
+              Nurturing Young Minds Since 2010
+            </div>
+          </FloatingElement>
+
           <FloatingElement delay={0.4}>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-              <span className="bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-                Hillcrest
-              </span>
-              <br />
-              <span className="text-white">Rising Stars</span>
+              <span>Welcome to </span>
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Rainbow Childcare</span>
             </h1>
           </FloatingElement>
 
           <FloatingElement delay={0.6}>
             <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Where every child shines bright! Modern nursery care with{" "}
-              <span className="text-yellow-400 font-semibold">
-                real-time updates
-              </span>
-              ,{" "}
-              <span className="text-pink-400 font-semibold">
-                smart technology
-              </span>
-              , and{" "}
-              <span className="text-purple-400 font-semibold">loving care</span>
+              Where every child's journey begins with love, learning, and laughter. We provide exceptional childcare services in a safe, nurturing environment
             </p>
           </FloatingElement>
 
