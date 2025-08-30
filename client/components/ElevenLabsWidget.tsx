@@ -1,5 +1,13 @@
 import { useEffect } from "react";
 
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      "elevenlabs-convai": any;
+    }
+  }
+}
+
 export default function ElevenLabsWidget() {
   useEffect(() => {
     if (!document.querySelector('script[data-elevenlabs-convai]')) {
