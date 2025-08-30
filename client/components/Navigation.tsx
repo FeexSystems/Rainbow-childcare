@@ -21,6 +21,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { name: "Home", path: "/", icon: Home },
+  { name: "About", path: "/about", icon: Home },
   { name: "Day Nursery", path: "/day-nursery", icon: Building2 },
   { name: "Afterschool", path: "/afterschool", icon: School },
   { name: "Pre-Nursery", path: "/pre-nursery", icon: CalendarDays },
