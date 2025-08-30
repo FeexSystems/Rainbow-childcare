@@ -299,20 +299,6 @@ export default function Index() {
                   <ArrowRight className="w-3 sm:w-5 h-3 sm:h-5" />
                 </a>
               </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="sm"
-                className="glass-button text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 h-auto text-gray-800 bg-white/20 border-white/50 hover:bg-white/30 hover:text-gray-900 flex-1 sm:flex-none max-w-[140px] sm:max-w-none"
-              >
-                <a
-                  href="#virtual-tour"
-                  className="flex items-center space-x-1 sm:space-x-2"
-                >
-                  <Play className="w-3 sm:w-5 h-3 sm:h-5" />
-                  <span>Virtual Tour</span>
-                </a>
-              </Button>
             </div>
           </FloatingElement>
 
