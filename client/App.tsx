@@ -10,6 +10,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { PWAInstallPrompt } from "@/components/PWAInstallPrompt";
+import ElevenLabsWidget from "@/components/ElevenLabsWidget";
 
 // Pages
 import Index from "./pages/Index";
@@ -85,6 +86,7 @@ const App = () => (
             </main>
             <Footer />
             <PWAInstallPrompt />
+            <ElevenLabsWidget />
           </div>
         </BrowserRouter>
       </AuthProvider>
