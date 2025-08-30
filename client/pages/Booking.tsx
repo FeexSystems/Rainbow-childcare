@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -38,6 +39,19 @@ export default function Booking() {
   ];
 
   const update = (k: string, v: any) => setForm((s) => ({ ...s, [k]: v }));
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const d = params.get("date");
+    const t = params.get("time");
+    const loc = params.get("location");
+    setForm((s) => ({
+      ...s,
+      date: d || s.date,
+      time_slot: t || s.time_slot,
+      location: (loc as any) || s.location,
+    }));
+  }, []);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
