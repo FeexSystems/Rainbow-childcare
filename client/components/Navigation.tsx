@@ -54,6 +54,12 @@ export function Navigation() {
                 <span>{name}</span>
               </Link>
             ))}
+            <Link
+              to="/login"
+              className="ml-2 inline-flex items-center rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm px-4 py-2 shadow hover:opacity-90"
+            >
+              Join Us
+            </Link>
           </div>
 
           {/* Mobile button */}
