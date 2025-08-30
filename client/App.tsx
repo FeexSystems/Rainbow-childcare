@@ -30,6 +30,9 @@ import Settings from "./pages/Settings";
 import Features from "./pages/Features";
 import HillCrestNursery from "./pages/HillCrestNursery";
 import RainbowStarsNursery from "./pages/RainbowStarsNursery";
+import DayNursery from "./pages/DayNursery";
+import Afterschool from "./pages/Afterschool";
+import PreNursery from "./pages/PreNursery";
 import AuthCallback from "./pages/AuthCallback";
 import ResetPassword from "./pages/ResetPassword";
 
