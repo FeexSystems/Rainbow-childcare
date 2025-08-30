@@ -17,6 +17,14 @@ import { submitContactForm } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
 
+function getDaysInMonth(year: number, month: number) {
+  return new Date(year, month + 1, 0).getDate();
+}
+
+function getFirstDayOfMonth(year: number, month: number) {
+  return new Date(year, month, 1).getDay();
+}
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
@@ -30,6 +38,17 @@ export default function Contact() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { toast } = useToast();
+
+  // Quick booking state
+  const [location, setLocation] = useState("hillcrest");
+  const [calendarMonth, setCalendarMonth] = useState(() => {
+    const d = new Date();
+    return new Date(d.getFullYear(), d.getMonth(), 1);
+  });
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selectedTime, setSelectedTime] = useState<string>("");
+
+  const times = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00"];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,21 +156,20 @@ export default function Contact() {
     );
   }
   return (
-    <div className="min-h-screen py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Contact Us
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Get in touch with us for admissions, questions, or to schedule a
-            visit.
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-cyan-50">
+      {/* Hero header */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(700px 300px at 10% 0%, rgba(139,92,246,0.4), transparent), radial-gradient(500px 300px at 90% 0%, rgba(236,72,153,0.4), transparent)" }} />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">Contact Us</h1>
+          <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">We'd love to hear from you. Reach out with questions or book a visit to see us in person.</p>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Contact Information */}
-          <div className="space-y-8">
+          <div className="space-y-8 lg:col-span-1">
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 Get in Touch
@@ -234,8 +252,77 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Contact Form */}
-          <div>
+          {/* Contact Form + Quick Booking */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Quick Booking Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Quick Visit Booking</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <Label>Location</Label>
+                    <Select value={location} onValueChange={setLocation}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="hillcrest">Hillcrest Rising Stars</SelectItem>
+                        <SelectItem value="rainbow_stars">Rainbow Stars Croydon</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {/* Calendar */}
+                    <div className="rounded-xl border bg-white/70 backdrop-blur p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <Button type="button" variant="outline" size="sm" onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth()-1, 1))}>Prev</Button>
+                        <div className="font-semibold">
+                          {calendarMonth.toLocaleString(undefined, { month: "long", year: "numeric" })}
+                        </div>
+                        <Button type="button" variant="outline" size="sm" onClick={() => setCalendarMonth(new Date(calendarMonth.getFullYear(), calendarMonth.getMonth()+1, 1))}>Next</Button>
+                      </div>
+                      <div className="grid grid-cols-7 gap-1 text-xs text-gray-600 mb-1">
+                        {["Su","Mo","Tu","We","Th","Fr","Sa"].map((d)=> (
+                          <div key={d} className="text-center py-1">{d}</div>
+                        ))}
+                      </div>
+                      <div className="grid grid-cols-7 gap-1">
+                        {Array.from({ length: getFirstDayOfMonth(calendarMonth.getFullYear(), calendarMonth.getMonth()) }).map((_,i)=> (
+                          <div key={`pad-${i}`} className="h-8" />
+                        ))}
+                        {Array.from({ length: getDaysInMonth(calendarMonth.getFullYear(), calendarMonth.getMonth()) }).map((_,i)=> {
+                          const day = i + 1;
+                          const dateStr = `${calendarMonth.getFullYear()}-${String(calendarMonth.getMonth()+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                          const isSelected = selectedDate === dateStr;
+                          return (
+                            <button
+                              type="button"
+                              key={day}
+                              onClick={() => setSelectedDate(dateStr)}
+                              className={`h-8 rounded-md text-sm flex items-center justify-center border ${isSelected ? "bg-nursery-purple text-white border-nursery-purple" : "bg-white hover:bg-gray-50"}`}
+                            >
+                              {day}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <Label>Time</Label>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {times.map((t)=> (
+                        <button key={t} type="button" onClick={()=> setSelectedTime(t)} className={`px-3 py-2 rounded-md border text-sm ${selectedTime===t? "bg-nursery-purple text-white border-nursery-purple" : "bg-white hover:bg-gray-50"}`}>{t}</button>
+                      ))}
+                    </div>
+                    <Button asChild disabled={!selectedDate || !selectedTime} className="w-full bg-nursery-purple hover:bg-nursery-purple/90">
+                      <a href={`/book-visit?date=${encodeURIComponent(selectedDate)}&time=${encodeURIComponent(selectedTime)}&location=${encodeURIComponent(location)}`}>Continue to Booking</a>
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader>
                 <CardTitle>Send us a Message</CardTitle>
