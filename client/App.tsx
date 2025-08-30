@@ -43,30 +43,15 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/nurseries" element={<Nurseries />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/apply" element={<Apply />} />
                 <Route path="/fees" element={<Fees />} />
-                <Route path="/policies" element={<Policies />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/admin" element={<AdminPanel />} />
                 <Route path="/forum" element={<Forum />} />
-                <Route path="/qr-pickup" element={<QRPickup />} />
                 <Route path="/messageboard" element={<Messageboard />} />
                 <Route path="/settings" element={<Settings />} />
-                <Route path="/features" element={<Features />} />
                 <Route path="/day-nursery" element={<DayNursery />} />
                 <Route path="/afterschool" element={<Afterschool />} />
                 <Route path="/pre-nursery" element={<PreNursery />} />
-                <Route
-                  path="/nurseries/hillcrest"
-                  element={<HillCrestNursery />}
-                />
-                <Route
-                  path="/nurseries/rainbow-stars"
-                  element={<RainbowStarsNursery />}
-                />
                 <Route path="/auth/callback" element={<AuthCallback />} />
                 <Route
                   path="/auth/reset-password"
