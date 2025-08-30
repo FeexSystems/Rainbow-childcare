@@ -12,10 +12,11 @@ const RainbowLogo = () => (
   </div>
 );
 
+type IconType = (props: { className?: string }) => JSX.Element;
 interface NavItem {
   name: string;
   path: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: IconType;
 }
 
 const NAV_ITEMS: NavItem[] = [
