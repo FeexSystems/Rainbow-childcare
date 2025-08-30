@@ -197,3 +197,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ElevenLabs Convai widget: ensure it clears mobile browser toolbars/safe areas */
+elevenlabs-convai {
+  position: fixed;
+  right: 16px;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  z-index: 1000;
+}
+
+@media (max-width: 640px) {
+  elevenlabs-convai {
+    bottom: calc(28px + env(safe-area-inset-bottom));
+  }
+}
