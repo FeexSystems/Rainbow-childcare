@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { EnhancedChatInterface } from "@/components/EnhancedChatInterface";
 import { useAuth } from "@/contexts/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -233,7 +232,7 @@ export default function Index() {
   return (
     <div className="min-h-screen">
       {/* Hero Section with Video Background */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[calc(100vh-4rem)] sm:min-h-screen flex items-center justify-center overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0 animated-gradient opacity-20"></div>
 
@@ -259,41 +258,28 @@ export default function Index() {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <FloatingElement delay={0.2}>
-            <motion.div
-              animate={{ rotate: [0, 5, -5, 0] }}
-              transition={{ duration: 4, repeat: Infinity }}
-              className="inline-block mb-6"
-            >
-              <div className="w-20 h-20 mx-auto mb-4 glass-card rounded-full flex items-center justify-center">
-                <Star className="w-10 h-10 text-yellow-400 glow-effect" />
-              </div>
-            </motion.div>
+        <div className="relative z-10 text-center max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 sm:pt-28">
+          <FloatingElement delay={0.45}>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/90 text-white text-xs md:text-sm shadow-sm">
+              <span className="inline-block h-2 w-2 rounded-full bg-white/90" />
+              Nurturing Young Minds Since 2010
+            </div>
           </FloatingElement>
 
           <FloatingElement delay={0.4}>
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-              <span className="bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
-                Hillcrest
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+              <span>Welcome to </span>
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Rainbow Childcare
               </span>
-              <br />
-              <span className="text-white">Rising Stars</span>
             </h1>
           </FloatingElement>
 
           <FloatingElement delay={0.6}>
-            <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Where every child shines bright! Modern nursery care with{" "}
-              <span className="text-yellow-400 font-semibold">
-                real-time updates
-              </span>
-              ,{" "}
-              <span className="text-pink-400 font-semibold">
-                smart technology
-              </span>
-              , and{" "}
-              <span className="text-purple-400 font-semibold">loving care</span>
+            <p className="text-base sm:text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
+              Where every child's journey begins with love, learning, and
+              laughter. We provide exceptional childcare services in a safe,
+              nurturing environment
             </p>
           </FloatingElement>
 
@@ -315,20 +301,6 @@ export default function Index() {
                   <Sparkles className="w-3 sm:w-5 h-3 sm:h-5" />
                   <span>Apply Now</span>
                   <ArrowRight className="w-3 sm:w-5 h-3 sm:h-5" />
-                </a>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="sm"
-                className="glass-button text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 h-auto text-gray-800 bg-white/20 border-white/50 hover:bg-white/30 hover:text-gray-900 flex-1 sm:flex-none max-w-[140px] sm:max-w-none"
-              >
-                <a
-                  href="#virtual-tour"
-                  className="flex items-center space-x-1 sm:space-x-2"
-                >
-                  <Play className="w-3 sm:w-5 h-3 sm:h-5" />
-                  <span>Virtual Tour</span>
                 </a>
               </Button>
             </div>
@@ -357,30 +329,23 @@ export default function Index() {
             </div>
 
             {/* Mobile Scrollable Version */}
-            <div className="md:hidden">
-              <div className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide px-4">
+            <div className="md:hidden px-4">
+              <div className="grid grid-cols-2 gap-4">
                 {[
                   { number: "15+", label: "Years Experience", icon: Award },
                   { number: "200+", label: "Happy Families", icon: Heart },
                   { number: "2", label: "Locations", icon: MapPin },
                   { number: "100%", label: "Satisfaction", icon: Star },
                 ].map((stat, index) => (
-                  <div
-                    key={`mobile-stat-${index}`}
-                    className="flex-shrink-0 w-40"
-                  >
-                    <InteractiveCard>
-                      <div className="glass-card p-4 text-center">
-                        <stat.icon className="w-6 h-6 mx-auto mb-2 text-yellow-400" />
-                        <div className="text-xl font-bold text-white">
-                          {stat.number}
-                        </div>
-                        <div className="text-xs text-white/80">
-                          {stat.label}
-                        </div>
+                  <InteractiveCard key={`mobile-stat-${index}`}>
+                    <div className="glass-card p-4 text-center">
+                      <stat.icon className="w-6 h-6 mx-auto mb-2 text-yellow-400" />
+                      <div className="text-xl font-bold text-white">
+                        {stat.number}
                       </div>
-                    </InteractiveCard>
-                  </div>
+                      <div className="text-xs text-white/80">{stat.label}</div>
+                    </div>
+                  </InteractiveCard>
                 ))}
               </div>
             </div>
@@ -687,7 +652,7 @@ export default function Index() {
                 className="glass-button text-xs sm:text-base px-3 sm:px-6 py-2 sm:py-3 h-auto text-gray-800 bg-white/20 border-white/50 hover:bg-white/30 hover:text-gray-900 flex-1 sm:flex-none max-w-[120px] sm:max-w-none"
               >
                 <a
-                  href="/contact"
+                  href="/book-visit"
                   className="flex items-center space-x-1 sm:space-x-2"
                 >
                   <Phone className="w-3 sm:w-5 h-3 sm:h-5" />
@@ -698,9 +663,6 @@ export default function Index() {
           </motion.div>
         </div>
       </section>
-
-      {/* Enhanced Chat Interface */}
-      <EnhancedChatInterface />
     </div>
   );
 }

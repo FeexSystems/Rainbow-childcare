@@ -137,21 +137,39 @@ export default function Contact() {
     );
   }
   return (
-    <div className="min-h-screen py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-cyan-50">
+      {/* Hero header */}
+      <div className="relative overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{
+            background:
+              "radial-gradient(700px 300px at 10% 0%, rgba(139,92,246,0.4), transparent), radial-gradient(500px 300px at 90% 0%, rgba(236,72,153,0.4), transparent)",
+          }}
+        />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
             Contact Us
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Get in touch with us for admissions, questions, or to schedule a
-            visit.
+          <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
+            We'd love to hear from you. Reach out with questions or book a visit
+            to see us in person.
           </p>
+          <div className="mt-6">
+            <Button
+              asChild
+              className="bg-nursery-purple hover:bg-nursery-purple/90"
+            >
+              <a href="/book-visit">Book a Visit</a>
+            </Button>
+          </div>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Contact Information */}
-          <div className="space-y-8">
+          <div className="space-y-8 lg:col-span-1">
             <div>
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 Get in Touch
@@ -161,34 +179,12 @@ export default function Contact() {
                   <MapPin className="w-6 h-6 text-nursery-purple mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-gray-900">
-                      Hillcrest Rising Stars
+                      Rainbow Childcare
                     </h3>
                     <p className="text-gray-600">
-                      Clockhouse Community Association
+                      123 Rainbow Street
                       <br />
-                      Hillcrest Hall, Fyshton Avenue
-                      <br />
-                      Coulsdon, Surrey
-                      <br />
-                      CR5 2PT
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <MapPin className="w-6 h-6 text-nursery-purple mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900">
-                      Rainbow Stars Nursery
-                    </h3>
-                    <p className="text-gray-600">
-                      1A Headcorn Road
-                      <br />
-                      Thornton Heath
-                      <br />
-                      Croydon, Surrey
-                      <br />
-                      CR7 6RJ
+                      City
                     </p>
                   </div>
                 </div>
@@ -196,22 +192,14 @@ export default function Contact() {
                 <div className="flex items-center space-x-4">
                   <Phone className="w-6 h-6 text-nursery-purple flex-shrink-0" />
                   <div>
-                    <p className="text-gray-600">07340 960829</p>
-                    <p className="text-gray-600">
-                      020 3827 6414 / 07368 429760
-                    </p>
+                    <p className="text-gray-600">(555) 123-4567</p>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-4">
                   <Mail className="w-6 h-6 text-nursery-purple flex-shrink-0" />
                   <div>
-                    <p className="text-gray-600">
-                      hillcrest.risingstarsnursery@outlook.com
-                    </p>
-                    <p className="text-gray-600">
-                      rainbowstarsnursery@gmail.com
-                    </p>
+                    <p className="text-gray-600">info@rainbowchildcare.com</p>
                   </div>
                 </div>
 
@@ -235,7 +223,7 @@ export default function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div>
+          <div className="lg:col-span-2 space-y-8">
             <Card>
               <CardHeader>
                 <CardTitle>Send us a Message</CardTitle>

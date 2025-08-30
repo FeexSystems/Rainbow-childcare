@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
@@ -26,7 +25,7 @@ export default function Login() {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
 
-  const { signIn, signUp, user, profile, createDemoUser } = useAuth();
+  const { signIn, signUp, user, profile } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -63,23 +62,8 @@ export default function Login() {
         });
       } else {
         const { error } = await signIn(email, password);
-
         if (error) {
-          // For demo purposes, create a demo user
-          if (email && password) {
-            const demoResult = createDemoUser(email, userType);
-
-            toast({
-              title: "Demo Mode",
-              description:
-                "Running in demo mode. Please set up Supabase for full functionality.",
-            });
-
-            // Navigation will be handled by the useEffect above
-            return;
-          } else {
-            throw error;
-          }
+          throw error;
         }
       }
     } catch (error: any) {
@@ -147,7 +131,7 @@ export default function Login() {
               {/* User Type Selection */}
               <div className="space-y-3">
                 <Label>I am a:</Label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                   {userTypes.map((type) => {
                     const IconComponent = type.icon;
                     return (
@@ -155,26 +139,24 @@ export default function Login() {
                         key={type.type}
                         type="button"
                         onClick={() => setUserType(type.type)}
-                        className={`p-4 border-2 rounded-lg text-left transition-all ${
+                        className={`p-4 border-2 rounded-lg transition-all h-full ${
                           userType === type.type
                             ? "border-nursery-purple bg-nursery-purple/10"
                             : "border-gray-200 hover:border-gray-300"
                         }`}
                       >
-                        <div className="flex items-start space-x-3">
+                        <div className="flex flex-col items-center text-center gap-2">
                           <div
-                            className={`${type.color} p-2 rounded-md text-white`}
+                            className={`${type.color} p-3 rounded-lg text-white`}
                           >
-                            <IconComponent className="w-4 h-4" />
+                            <IconComponent className="w-5 h-5" />
                           </div>
-                          <div>
-                            <h3 className="font-medium text-gray-900">
-                              {type.title}
-                            </h3>
-                            <p className="text-xs text-gray-600 mt-1">
-                              {type.description}
-                            </p>
-                          </div>
+                          <h3 className="font-medium text-gray-900">
+                            {type.title}
+                          </h3>
+                          <p className="text-xs text-gray-600">
+                            {type.description}
+                          </p>
                         </div>
                       </button>
                     );
@@ -236,24 +218,6 @@ export default function Login() {
                 )}
               </div>
 
-              {/* Demo Credentials */}
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <h3 className="font-medium text-yellow-900 mb-2">
-                  Demo Credentials
-                </h3>
-                <div className="text-sm text-yellow-800 space-y-1">
-                  <p>
-                    <strong>Email:</strong> demo@nursery.com
-                  </p>
-                  <p>
-                    <strong>Password:</strong> demo123
-                  </p>
-                  <p className="text-xs mt-2 opacity-75">
-                    Use any email/password combination for demo purposes
-                  </p>
-                </div>
-              </div>
-
               <Button
                 type="submit"
                 className="w-full bg-nursery-purple hover:bg-nursery-purple/90"
@@ -272,57 +236,6 @@ export default function Login() {
                   </>
                 )}
               </Button>
-
-              {/* Quick Demo Buttons */}
-              <div className="mt-3 space-y-2">
-                <p className="text-xs text-gray-500 text-center">
-                  Quick Demo Access:
-                </p>
-                <div className="grid grid-cols-2 gap-2">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={async () => {
-                      setLoading(true);
-                      try {
-                        createDemoUser("parent@demo.com", "parent");
-                        toast({
-                          title: "Demo Parent",
-                          description: "Logged in as demo parent.",
-                        });
-                        setTimeout(() => navigate("/dashboard"), 500);
-                      } finally {
-                        setLoading(false);
-                      }
-                    }}
-                    disabled={loading}
-                  >
-                    👨‍👩‍👧‍👦 Parent
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={async () => {
-                      setLoading(true);
-                      try {
-                        createDemoUser("admin@demo.com", "admin");
-                        toast({
-                          title: "Demo Admin",
-                          description: "Logged in as demo admin.",
-                        });
-                        setTimeout(() => navigate("/dashboard"), 500);
-                      } finally {
-                        setLoading(false);
-                      }
-                    }}
-                    disabled={loading}
-                  >
-                    ⚙️ Admin
-                  </Button>
-                </div>
-              </div>
             </form>
 
             {/* Additional Options */}
@@ -360,41 +273,6 @@ export default function Login() {
             </div>
           </CardContent>
         </Card>
-
-        {/* Features Preview */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white p-4 rounded-lg shadow-sm text-center">
-            <div className="w-8 h-8 bg-blue-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
-              <Users className="w-4 h-4 text-blue-600" />
-            </div>
-            <h3 className="font-medium text-gray-900 text-sm">
-              Real-time Updates
-            </h3>
-            <p className="text-xs text-gray-600 mt-1">
-              Get instant notifications about your child's activities
-            </p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm text-center">
-            <div className="w-8 h-8 bg-green-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
-              <GraduationCap className="w-4 h-4 text-green-600" />
-            </div>
-            <h3 className="font-medium text-gray-900 text-sm">QR Pickup</h3>
-            <p className="text-xs text-gray-600 mt-1">
-              Secure, contactless child pickup system
-            </p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm text-center">
-            <div className="w-8 h-8 bg-purple-100 rounded-lg mx-auto mb-2 flex items-center justify-center">
-              <Settings className="w-4 h-4 text-purple-600" />
-            </div>
-            <h3 className="font-medium text-gray-900 text-sm">
-              Community Forum
-            </h3>
-            <p className="text-xs text-gray-600 mt-1">
-              Connect with other parents and teachers
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   );
