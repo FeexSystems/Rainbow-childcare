@@ -1,86 +1,87 @@
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Shield, Users, Heart, BookOpen, Camera, MessageSquare, QrCode, Calendar, FileText } from "lucide-react";
+
 export default function About() {
+  const values = [
+    { icon: Heart, title: "Nurturing Care", desc: "Every child is valued, respected, and nurtured in a loving environment" },
+    { icon: Shield, title: "Safety First", desc: "Robust safeguarding and health & safety policies guide everything we do" },
+    { icon: Users, title: "Family Partnership", desc: "Strong communication and collaboration with parents and carers" },
+    { icon: BookOpen, title: "Learning Through Play", desc: "Play-based curriculum aligned with Early Years Foundation Stage" },
+  ];
+
+  const platform = [
+    { icon: Camera, title: "Daily Photo Updates" },
+    { icon: MessageSquare, title: "Real-time Communication" },
+    { icon: QrCode, title: "Secure QR Pickup" },
+    { icon: Calendar, title: "Interactive Calendar" },
+  ];
+
+  const policies = [
+    { title: "Safeguarding", desc: "Protecting children's welfare with clear procedures and staff training" },
+    { title: "Data Protection", desc: "Your privacy is protected in accordance with GDPR" },
+    { title: "Positive Behaviour", desc: "Encouraging kindness, respect, and emotional development" },
+    { title: "British Values", desc: "Promoting democracy, rule of law, liberty, and mutual respect" },
+  ];
+
   return (
-    <div className="min-h-screen py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            About Us
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Learn more about our journey, values, and commitment to providing
-            exceptional early childhood education.
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+      <section className="py-16 text-center">
+        <div className="max-w-5xl mx-auto px-4">
+          <Badge className="mb-4 bg-purple-100 text-purple-700">About Rainbow Childcare</Badge>
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">Our Story & Approach</h1>
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+            We provide exceptional early years education and care in a warm, inclusive environment—partnering with families to support each child's unique journey.
           </p>
         </div>
+      </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          <div>
-            <img
-              src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=600&h=400&fit=crop"
-              alt="Children playing"
-              className="w-full h-64 object-cover rounded-lg shadow-lg"
-            />
-          </div>
-          <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
-            <div className="space-y-4 text-gray-700">
-              <p>
-                We are located in a community hall in a lovely residential area,
-                close to Woodmansterne stations and Croydon town stations.
-              </p>
-              <p>
-                We offer a safe, caring, fun and stimulating learning
-                environment for children ages 24 months to five years. We have
-                dedicated nursery nurses for different age groups, each room
-                follows areas of learning as outlined in the early years
-                foundation stage.
-              </p>
-              <p>
-                We are opened 50 weeks a year, closed for bank holidays and
-                during Christmas week and new year.
-              </p>
-              <p className="font-semibold">
-                We offer full and half day sessions from 7:30am – 6:30pm.
-              </p>
-            </div>
+      <section className="py-8">
+        <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8">
+          {values.map((v, i) => (
+            <Card key={i} className="glass-card">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3">
+                  <v.icon className="w-6 h-6 text-purple-600" />
+                  {v.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-gray-600">{v.desc}</CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="py-12">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">Smart, Family-Friendly Platform</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {platform.map((p, i) => (
+              <div key={i} className="rounded-xl bg-white p-5 shadow-sm border border-purple-100 text-center">
+                <p.icon className="w-6 h-6 mx-auto text-purple-600 mb-2" />
+                <div className="font-semibold text-gray-800">{p.title}</div>
+              </div>
+            ))}
           </div>
         </div>
+      </section>
 
-        {/* Coming Soon Section */}
-        <div className="bg-gray-50 rounded-lg p-8 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Enhanced Features Coming Soon
-          </h2>
-          <p className="text-gray-600 mb-6">
-            We're building new digital features to better serve our community:
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white p-4 rounded-lg shadow">
-              <h3 className="font-semibold text-gray-900 mb-2">
-                Parent Dashboard
-              </h3>
-              <p className="text-sm text-gray-600">
-                Real-time updates on your child's daily activities and progress
-              </p>
-            </div>
-            <div className="bg-white p-4 rounded-lg shadow">
-              <h3 className="font-semibold text-gray-900 mb-2">
-                QR Pickup System
-              </h3>
-              <p className="text-sm text-gray-600">
-                Secure, contactless pickup using QR codes
-              </p>
-            </div>
-            <div className="bg-white p-4 rounded-lg shadow">
-              <h3 className="font-semibold text-gray-900 mb-2">
-                Community Forum
-              </h3>
-              <p className="text-sm text-gray-600">
-                Connect with other parents and share experiences
-              </p>
-            </div>
+      <section className="py-12 bg-white/50">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">Key Policies</h2>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {policies.map((p, i) => (
+              <div key={i} className="rounded-xl bg-white p-5 shadow-sm border border-purple-100">
+                <div className="font-semibold text-gray-800">{p.title}</div>
+                <div className="text-sm text-gray-600">{p.desc}</div>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <a href="/fees" className="text-purple-600 hover:underline">View Fees</a>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
