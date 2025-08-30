@@ -146,11 +146,17 @@ export default function Login() {
                         }`}
                       >
                         <div className="flex flex-col items-center text-center gap-2">
-                          <div className={`${type.color} p-3 rounded-lg text-white`}>
+                          <div
+                            className={`${type.color} p-3 rounded-lg text-white`}
+                          >
                             <IconComponent className="w-5 h-5" />
                           </div>
-                          <h3 className="font-medium text-gray-900">{type.title}</h3>
-                          <p className="text-xs text-gray-600">{type.description}</p>
+                          <h3 className="font-medium text-gray-900">
+                            {type.title}
+                          </h3>
+                          <p className="text-xs text-gray-600">
+                            {type.description}
+                          </p>
                         </div>
                       </button>
                     );
@@ -212,7 +218,6 @@ export default function Login() {
                 )}
               </div>
 
-
               <Button
                 type="submit"
                 className="w-full bg-nursery-purple hover:bg-nursery-purple/90"
@@ -231,7 +236,6 @@ export default function Login() {
                   </>
                 )}
               </Button>
-
             </form>
 
             {/* Additional Options */}
@@ -269,7 +273,6 @@ export default function Login() {
             </div>
           </CardContent>
         </Card>
-
       </div>
     </div>
   );

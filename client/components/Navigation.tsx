@@ -47,7 +47,7 @@ export function Navigation() {
                 to={path}
                 className={cn(
                   "flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors",
-                  location.pathname === path && "text-gray-900"
+                  location.pathname === path && "text-gray-900",
                 )}
               >
                 <Icon className="h-4 w-4 text-gray-500" />
@@ -68,7 +68,11 @@ export function Navigation() {
             className="md:hidden p-2"
             onClick={() => setIsMobileMenuOpen((s) => !s)}
           >
-            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {isMobileMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </button>
         </div>
 
@@ -83,7 +87,7 @@ export function Navigation() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={cn(
                     "flex items-center gap-2 px-2 py-3 text-sm text-gray-700 hover:text-gray-900",
-                    location.pathname === path && "text-gray-900"
+                    location.pathname === path && "text-gray-900",
                   )}
                 >
                   <Icon className="h-4 w-4 text-gray-500" />

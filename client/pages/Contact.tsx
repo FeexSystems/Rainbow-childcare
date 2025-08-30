@@ -140,12 +140,26 @@ export default function Contact() {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-cyan-50">
       {/* Hero header */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 opacity-30" style={{ background: "radial-gradient(700px 300px at 10% 0%, rgba(139,92,246,0.4), transparent), radial-gradient(500px 300px at 90% 0%, rgba(236,72,153,0.4), transparent)" }} />
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{
+            background:
+              "radial-gradient(700px 300px at 10% 0%, rgba(139,92,246,0.4), transparent), radial-gradient(500px 300px at 90% 0%, rgba(236,72,153,0.4), transparent)",
+          }}
+        />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">Contact Us</h1>
-          <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">We'd love to hear from you. Reach out with questions or book a visit to see us in person.</p>
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
+            Contact Us
+          </h1>
+          <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
+            We'd love to hear from you. Reach out with questions or book a visit
+            to see us in person.
+          </p>
           <div className="mt-6">
-            <Button asChild className="bg-nursery-purple hover:bg-nursery-purple/90">
+            <Button
+              asChild
+              className="bg-nursery-purple hover:bg-nursery-purple/90"
+            >
               <a href="/book-visit">Book a Visit</a>
             </Button>
           </div>
@@ -175,7 +189,6 @@ export default function Contact() {
                   </div>
                 </div>
 
-
                 <div className="flex items-center space-x-4">
                   <Phone className="w-6 h-6 text-nursery-purple flex-shrink-0" />
                   <div>
@@ -186,9 +199,7 @@ export default function Contact() {
                 <div className="flex items-center space-x-4">
                   <Mail className="w-6 h-6 text-nursery-purple flex-shrink-0" />
                   <div>
-                    <p className="text-gray-600">
-                      info@rainbowchildcare.com
-                    </p>
+                    <p className="text-gray-600">info@rainbowchildcare.com</p>
                   </div>
                 </div>
 

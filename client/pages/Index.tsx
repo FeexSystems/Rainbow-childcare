@@ -269,13 +269,17 @@ export default function Index() {
           <FloatingElement delay={0.4}>
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
               <span>Welcome to </span>
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Rainbow Childcare</span>
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Rainbow Childcare
+              </span>
             </h1>
           </FloatingElement>
 
           <FloatingElement delay={0.6}>
             <p className="text-base sm:text-xl md:text-2xl text-white/90 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Where every child's journey begins with love, learning, and laughter. We provide exceptional childcare services in a safe, nurturing environment
+              Where every child's journey begins with love, learning, and
+              laughter. We provide exceptional childcare services in a safe,
+              nurturing environment
             </p>
           </FloatingElement>
 
@@ -336,7 +340,9 @@ export default function Index() {
                   <InteractiveCard key={`mobile-stat-${index}`}>
                     <div className="glass-card p-4 text-center">
                       <stat.icon className="w-6 h-6 mx-auto mb-2 text-yellow-400" />
-                      <div className="text-xl font-bold text-white">{stat.number}</div>
+                      <div className="text-xl font-bold text-white">
+                        {stat.number}
+                      </div>
                       <div className="text-xs text-white/80">{stat.label}</div>
                     </div>
                   </InteractiveCard>
@@ -657,7 +663,6 @@ export default function Index() {
           </motion.div>
         </div>
       </section>
-
     </div>
   );
 }

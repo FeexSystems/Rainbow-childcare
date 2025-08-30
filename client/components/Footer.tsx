@@ -18,9 +18,21 @@ export function Footer() {
           <div>
             <h4 className="font-semibold mb-3">Services</h4>
             <ul className="space-y-2 text-sm text-white/80">
-              <li><Link to="/day-nursery" className="hover:underline">Day Nursery</Link></li>
-              <li><Link to="/pre-nursery" className="hover:underline">Pre-Nursery</Link></li>
-              <li><Link to="/afterschool" className="hover:underline">Afterschool Care</Link></li>
+              <li>
+                <Link to="/day-nursery" className="hover:underline">
+                  Day Nursery
+                </Link>
+              </li>
+              <li>
+                <Link to="/pre-nursery" className="hover:underline">
+                  Pre-Nursery
+                </Link>
+              </li>
+              <li>
+                <Link to="/afterschool" className="hover:underline">
+                  Afterschool Care
+                </Link>
+              </li>
               <li>Summer Programs</li>
             </ul>
           </div>
@@ -30,7 +42,14 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-white/80">
               <li>123 Rainbow Street, City</li>
               <li>(555) 123-4567</li>
-              <li><a href="mailto:info@rainbowchildcare.com" className="hover:underline">info@rainbowchildcare.com</a></li>
+              <li>
+                <a
+                  href="mailto:info@rainbowchildcare.com"
+                  className="hover:underline"
+                >
+                  info@rainbowchildcare.com
+                </a>
+              </li>
             </ul>
           </div>
 

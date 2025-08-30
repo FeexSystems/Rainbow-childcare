@@ -10,7 +10,7 @@ declare global {
 
 export default function ElevenLabsWidget() {
   useEffect(() => {
-    if (!document.querySelector('script[data-elevenlabs-convai]')) {
+    if (!document.querySelector("script[data-elevenlabs-convai]")) {
       const s = document.createElement("script");
       s.src = "https://unpkg.com/@elevenlabs/convai-widget-embed";
       s.async = true;
